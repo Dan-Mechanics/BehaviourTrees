@@ -1,2 +1,1 @@
-# BehaviourTrees
-School assigment.
+Assigment 3 - Behaviour Trees
