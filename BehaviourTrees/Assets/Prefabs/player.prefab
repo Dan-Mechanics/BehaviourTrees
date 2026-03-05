@@ -250,7 +250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 9212533883646788513}
-  speed: 6
+  jump: {fileID: 11400000, guid: 1b4abb450e05c4f4cb0f83edbaba22d6, type: 2}
+  speed: 7.5
+  jumpSpeed: 6
+  groundedVelocity: -2
 --- !u!114 &860917921356621781
 MonoBehaviour:
   m_ObjectHideFlags: 0

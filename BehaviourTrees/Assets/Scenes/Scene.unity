@@ -771,6 +771,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 959978965837648373, guid: a021b22d9b4283f4a9e75fefd197b5ef, type: 3}
+      propertyPath: width
+      value: 358
+      objectReference: {fileID: 0}
+    - target: {fileID: 959978965837648373, guid: a021b22d9b4283f4a9e75fefd197b5ef, type: 3}
+      propertyPath: height
+      value: 111
+      objectReference: {fileID: 0}
+    - target: {fileID: 959978965837648373, guid: a021b22d9b4283f4a9e75fefd197b5ef, type: 3}
+      propertyPath: padding
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 959978965837648373, guid: a021b22d9b4283f4a9e75fefd197b5ef, type: 3}
       propertyPath: sensitivity
       value: 0.4
       objectReference: {fileID: 0}
@@ -874,18 +886,6 @@ PrefabInstance:
     - target: {fileID: 5459715216591067355, guid: 7f28380773d9e464cbac1c0f7d92cc9a, type: 3}
       propertyPath: m_Name
       value: player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6717284499361556350, guid: 7f28380773d9e464cbac1c0f7d92cc9a, type: 3}
-      propertyPath: jump
-      value: 
-      objectReference: {fileID: 11400000, guid: 1b4abb450e05c4f4cb0f83edbaba22d6, type: 2}
-    - target: {fileID: 6717284499361556350, guid: 7f28380773d9e464cbac1c0f7d92cc9a, type: 3}
-      propertyPath: jumpSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6717284499361556350, guid: 7f28380773d9e464cbac1c0f7d92cc9a, type: 3}
-      propertyPath: groundedVelocity
-      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

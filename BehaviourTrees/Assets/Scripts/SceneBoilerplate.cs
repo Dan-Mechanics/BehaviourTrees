@@ -16,7 +16,10 @@ namespace BehaviourTrees
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Application.targetFrameRate = fps;
+
+            QualitySettings.SetQualityLevel(0);
             QualitySettings.vSyncCount = 0;
+            
             Time.fixedDeltaTime = 1f / physicsTicksPerSecond;
         }
 
