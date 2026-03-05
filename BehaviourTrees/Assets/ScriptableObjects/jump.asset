@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d988901ef82d7948ae443840bd713d4, type: 3}
-  m_Name: next
+  m_Name: jump
   m_EditorClassIdentifier: 
-  keyName: Mouse4
-  keyCode: 327
+  keyName: Space
+  keyCode: 32
