@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Sequence : Node
+    public class Sequence : INode
     {
-        private readonly Node[] nodes;
+        private readonly INode[] nodes;
         private int index;
 
-        public Sequence(params Node[] nodes) 
+        public Sequence(params INode[] nodes) 
         {
             this.nodes = nodes;
         }
 
-        public override Status Process()
+        public Status Process()
         {
             // THIS SYNTAX IS CRAZY.
             // --> https://www.youtube.com/watch?v=lusROFJ3_t8
