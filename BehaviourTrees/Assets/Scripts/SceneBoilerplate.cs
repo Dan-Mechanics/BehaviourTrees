@@ -15,12 +15,12 @@ namespace BehaviourTrees
         public void Setup()
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             Application.targetFrameRate = fps;
+            Time.fixedDeltaTime = 1f / physicsTicksPerSecond;
 
             QualitySettings.SetQualityLevel(0);
             QualitySettings.vSyncCount = 0;
-            
-            Time.fixedDeltaTime = 1f / physicsTicksPerSecond;
         }
 
         private void Update()
