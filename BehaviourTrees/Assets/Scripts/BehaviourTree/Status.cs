@@ -1,6 +1,6 @@
 namespace BehaviourTrees
 {
-    public enum BehaviourResult 
+    public enum Status 
     { 
         Running = 0,
         Failed = 1,

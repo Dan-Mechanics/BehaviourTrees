@@ -9,17 +9,16 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public override BehaviourResult Update()
+        public override Status Process()
         {
-            BehaviourResult result = node.Update();
-            if (result == BehaviourResult.Failed)
-                result = BehaviourResult.Success;
+            Status result = node.Process();
+            if (result == Status.Failed)
+                return Status.Success;
 
-            if (result == BehaviourResult.Success)
-                result = BehaviourResult.Failed;
+            if (result == Status.Success)
+                return Status.Failed;
 
             return result;
         }
-
     }
 }

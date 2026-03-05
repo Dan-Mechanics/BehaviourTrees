@@ -4,9 +4,13 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public abstract class Node 
+    public class Node 
     {
-        public abstract BehaviourResult Update();
+
+        public virtual Status Process()
+        {
+            return Status.Failed;
+        }
 
         // there there need ot be on exit enter here soemhwere??
         // and where does the blackbaord come into oplay ?

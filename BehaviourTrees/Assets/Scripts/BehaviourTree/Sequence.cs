@@ -13,21 +13,23 @@ namespace BehaviourTrees
         {
             this.nodes = nodes;
         }
-        
-        public override BehaviourResult Update()
+
+        public override Status Process()
         {
             // THIS SYNTAX IS CRAZY.
+            // --> https://www.youtube.com/watch?v=lusROFJ3_t8
+            // https://github.com/adammyhre/Unity-Behaviour-Trees/blob/master/Assets/_Project/Scripts/BehaviourTrees/Node.cs
             for (; index < nodes.Length; index++)
             {
-                switch (nodes[index].Update())
+                switch (nodes[index].Process())
                 {
-                    case BehaviourResult.Running:
-                        return BehaviourResult.Running;
-                    case BehaviourResult.Failed:
+                    case Status.Running:
+                        return Status.Running;
+                    case Status.Failed:
                         // RESET.
                         index = 0;
-                        return BehaviourResult.Failed;
-                    case BehaviourResult.Success:
+                        return Status.Failed;
+                    case Status.Success:
                         continue;
                     default:
                         break;
@@ -36,7 +38,7 @@ namespace BehaviourTrees
 
             // RESET.
             index = 0;
-            return BehaviourResult.Success;
+            return Status.Success;
         }
     }
 }
