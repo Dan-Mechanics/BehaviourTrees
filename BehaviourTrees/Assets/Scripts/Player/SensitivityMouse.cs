@@ -13,6 +13,7 @@ namespace BehaviourTrees
 
         [Header("Debug UI")]
         [SerializeField] private Color color = Color.white;
+        [SerializeField] private int fontSize = default;
         [SerializeField] private int padding = default;
         [SerializeField] private int width = default;
         [SerializeField] private int height = default;
@@ -37,10 +38,10 @@ namespace BehaviourTrees
             GUI.color = color;
             Rect rect = new Rect(Screen.width - width - padding, Screen.height - height - padding, width, height);
             GUIStyle style = GUI.skin.GetStyle("Label");
-            style.fontSize = 20;
+            style.fontSize = fontSize;
 
-            style.alignment = TextAnchor.MiddleRight;
-            GUI.Label(rect, $"sens: {sensitivity:G3}\nUse alt mouse buttons to raise / lower", style);
+            style.alignment = TextAnchor.LowerRight;
+            GUI.Label(rect, $"sens: {System.Math.Round(sensitivity, 2)}\nUse alt mouse buttons to raise / lower", style);
             GUI.color = Color.white;
         }
     }

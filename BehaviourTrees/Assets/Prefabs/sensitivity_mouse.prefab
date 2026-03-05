@@ -46,7 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   next: {fileID: 11400000, guid: a2c26a0284d653b4eb37664d682cba2f, type: 2}
   previous: {fileID: 11400000, guid: abff7ea72265f204d9ae47748add6ce3, type: 2}
-  sensitivity: 0.33
+  sensitivity: 0.4
   min: 0.1
   max: 5
   sensitivityPerClick: 0.1
+  color: {r: 1, g: 1, b: 1, a: 1}
+  fontSize: 20
+  padding: 15
+  width: 350
+  height: 80

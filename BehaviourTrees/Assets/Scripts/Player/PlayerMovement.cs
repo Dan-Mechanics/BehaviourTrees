@@ -6,8 +6,10 @@ namespace BehaviourTrees
     {
         [SerializeField] private CharacterController controller = default;
         [SerializeField] private EasyBinding jump = default;
+        [SerializeField] private EasyBinding sprint = default;
         [SerializeField] private float speed = default;
         [SerializeField] private float jumpSpeed = default;
+        [SerializeField] private float sprintMultiplyer = default;
         [SerializeField] private float groundedVelocity = default;
         private IMoveInput moveInput;
         private float velocity;
@@ -24,16 +26,13 @@ namespace BehaviourTrees
             return movement;
         }
 
-        private void Update()
-        {
-            Move(moveInput.GetMovement(), Time.deltaTime, controller.isGrounded, jump.WasPressed);
-        }
+        private void Update() => Move(Time.deltaTime);
 
-        private void Move(Vector3 movement, float interval, bool isGrounded, bool jump)
+        private void Move(float interval)
         {
-            if (isGrounded)
+            if (controller.isGrounded)
             {
-                if (jump)
+                if (jump.IsHeld)
                 {
                     velocity = jumpSpeed;
                 }
@@ -47,7 +46,8 @@ namespace BehaviourTrees
                 velocity += Physics.gravity.y * interval;
             }
 
-            controller.Move(speed * interval * movement);
+            float mult = (sprint.IsHeld ? sprintMultiplyer : 1f) * speed * interval;
+            controller.Move(mult * moveInput.GetMovement());
             controller.Move(interval * velocity * Vector3.up);
         }
     }
