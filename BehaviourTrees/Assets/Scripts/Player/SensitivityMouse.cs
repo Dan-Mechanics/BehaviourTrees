@@ -40,7 +40,7 @@ namespace BehaviourTrees
             style.fontSize = 20;
 
             style.alignment = TextAnchor.MiddleRight;
-            GUI.Label(rect, $"sens: {sensitivity}".ToLowerInvariant(), style);
+            GUI.Label(rect, $"sens: {sensitivity:G3}\nUse alt mouse buttons to raise / lower", style);
             GUI.color = Color.white;
         }
     }
