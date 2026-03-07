@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,24 +13,27 @@ namespace BehaviourTrees
     public class Guard : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent = default;
-        [SerializeField] private Transform[] waypoints = default;
-
+        [SerializeField] private List<Transform> waypoints = default;
+        [SerializeField] private float minDistance = default;
+        [SerializeField] private float patrolSpeed = default;
         private Node behaviourTree;
 
         private void Start()
         {
             List<Node> nodes = new List<Node>();
             Blackboard blackboard = new Blackboard();
-            var 
 
-            var sequence = new Sequence()
+            Sequence patrol = new Sequence();
+            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, minDistance, patrolSpeed)));
 
-
-            foreach (object task in nodes)
+            /*foreach (object task in nodes)
             {
                 if (task is IBlackboardRequired required)
-                    required.Assign(blackboard);
-            }
+                    required.Blackboard = blackboard;
+            }*/
+
+            behaviourTree = patrol;
+            behaviourTree.OnEnter();
         }
 
         private void FixedUpdate()

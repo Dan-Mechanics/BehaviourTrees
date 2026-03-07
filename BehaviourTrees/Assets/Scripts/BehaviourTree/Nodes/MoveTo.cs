@@ -3,17 +3,16 @@ using UnityEngine.AI;
 
 namespace BehaviourTrees
 {
-    public class MoveTo : Node, IBlackboardRequired
+    public class MoveTo : Node
     {
-        public Blackboard Blackboard { get; set; }
-
         private Transform target;
         private NavMeshAgent agent;
         private float minDistance;
         private float speed;
 
-        public MoveTo(NavMeshAgent agent, float minDistance, float speed)
+        public MoveTo(Transform target, NavMeshAgent agent, float minDistance, float speed)
         {
+            this.target = target;
             this.agent = agent;
             this.minDistance = minDistance;
             this.speed = speed;
@@ -22,13 +21,14 @@ namespace BehaviourTrees
         public override void OnEnter()
         {
             base.OnEnter();
-            target = Blackboard.GetValue<Transform>(nameof(target));
             agent.speed = speed;
         }
 
         public override Status Process()
         {
             agent.SetDestination(target.position);
+            float dist = Vector3.Distance(agent.transform.position, target.position);
+            Debug.Log(dist);
             if (Vector3.Distance(agent.transform.position, target.position) <= minDistance)
                 return Status.Success;
 

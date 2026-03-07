@@ -1,8 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Sequence : Node
+    public class Selector : Node
     {
         private readonly List<Node> nodes = new List<Node>();
         private int index;

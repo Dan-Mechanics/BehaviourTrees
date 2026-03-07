@@ -130,6 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a00a992f7b910644830b176aa6d082b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 2693701176999614967}
+  waypoints: []
+  minDistance: 2
+  patrolSpeed: 6
 --- !u!195 &2693701176999614967
 NavMeshAgent:
   m_ObjectHideFlags: 0
