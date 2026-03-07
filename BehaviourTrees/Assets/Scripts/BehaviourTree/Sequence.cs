@@ -4,21 +4,18 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Sequence : INode
+    public class Sequence : Node
     {
-        private readonly INode[] nodes;
+        private readonly Node[] nodes;
         private int index;
 
-        public Sequence(params INode[] nodes) 
+        public Sequence(params Node[] nodes)
         {
             this.nodes = nodes;
         }
 
-        public Status Process()
+        public override Status Process()
         {
-            // THIS SYNTAX IS CRAZY.
-            // --> https://www.youtube.com/watch?v=lusROFJ3_t8
-            // https://github.com/adammyhre/Unity-Behaviour-Trees/blob/master/Assets/_Project/Scripts/BehaviourTrees/Node.cs
             for (; index < nodes.Length; index++)
             {
                 switch (nodes[index].Process())

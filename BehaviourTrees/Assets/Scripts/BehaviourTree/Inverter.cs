@@ -1,15 +1,15 @@
 namespace BehaviourTrees
 {
-    public class Inverter : INode
+    public class Inverter : Node
     {
-        private readonly INode node;
+        private readonly Node node;
 
-        public Inverter(INode node)
+        public Inverter(Node node)
         {
             this.node = node;
         }
 
-        public Status Process()
+        public override Status Process()
         {
             Status result = node.Process();
             if (result == Status.Failed)
