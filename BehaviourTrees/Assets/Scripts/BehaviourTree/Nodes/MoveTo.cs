@@ -18,17 +18,11 @@ namespace BehaviourTrees
             this.speed = speed;
         }
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            agent.speed = speed;
-        }
-
         public override Status Process()
         {
+            agent.speed = speed;
             agent.SetDestination(target.position);
             float dist = Vector3.Distance(agent.transform.position, target.position);
-            Debug.Log(dist);
             if (Vector3.Distance(agent.transform.position, target.position) <= minDistance)
                 return Status.Success;
 

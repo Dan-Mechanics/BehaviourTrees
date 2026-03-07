@@ -13,26 +13,23 @@ namespace BehaviourTrees
 
         public override Status Process()
         {
-            for (; index < nodes.Count; index++)
+            if (index < nodes.Count)
             {
                 switch (nodes[index].Process())
                 {
                     case Status.Running:
                         return Status.Running;
                     case Status.Failed:
-                        // RESET.
-                        index = 0;
-                        return Status.Failed;
-                    case Status.Success:
-                        continue;
-                    default:
                         break;
+                    case Status.Success:
+                        return Status.Success;
+                    default:
+                        index++;
+                        return Status.Running;
                 }
             }
 
-            // RESET.
-            index = 0;
-            return Status.Success;
+            return Status.Failed;
         }
     }
 }

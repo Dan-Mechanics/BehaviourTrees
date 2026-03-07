@@ -13,9 +13,13 @@ namespace BehaviourTrees
     public class Guard : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent = default;
-        [SerializeField] private List<Transform> waypoints = default;
         [SerializeField] private float minDistance = default;
         [SerializeField] private float patrolSpeed = default;
+        [SerializeField] private bool check = default;
+        [SerializeField] private List<Transform> waypoints = default;
+
+        private bool GetCheck() => check;
+
         private Node behaviourTree;
 
         private void Start()
@@ -25,6 +29,8 @@ namespace BehaviourTrees
 
             Sequence patrol = new Sequence();
             waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, minDistance, patrolSpeed)));
+            Conditional conditional = new Conditional(patrol, new Node(), GetCheck);
+
 
             /*foreach (object task in nodes)
             {
@@ -32,8 +38,7 @@ namespace BehaviourTrees
                     required.Blackboard = blackboard;
             }*/
 
-            behaviourTree = patrol;
-            behaviourTree.OnEnter();
+            behaviourTree = conditional;
         }
 
         private void FixedUpdate()
