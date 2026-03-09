@@ -8,9 +8,13 @@ namespace BehaviourTrees
         private PlayerMovement playerMovement;
         private SceneBoilerplate sceneBoilerplate;
         private SensitivityMouse sensitivityMouse;
+        private Guard guard;
+        private Transform player;
 
         private void Awake()
         {
+            player = GameObject.FindWithTag("Player").transform;
+            guard = FindAnyObjectByType<Guard>();
             firstPersonLook = FindAnyObjectByType<FirstPersonLook>();
             playerMovement = FindAnyObjectByType<PlayerMovement>();
             sensitivityMouse = FindAnyObjectByType<SensitivityMouse>();
@@ -22,6 +26,7 @@ namespace BehaviourTrees
             // THIS NEEDS TO GO FIRST.
             sceneBoilerplate.Setup();
 
+            guard.Setup(player);
             firstPersonLook.SetupCursor();
             firstPersonLook.SetLookInput(sensitivityMouse);
             playerMovement.SetMoveInput(playerMovement);

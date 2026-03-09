@@ -1,9 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace BehaviourTrees
 {
+    /// <summary>
+    /// Runs all its children one by one until a node succeeds.
+    /// </summary>
     public class Selector : INode
     {
         private readonly List<INode> nodes = new List<INode>();
@@ -13,23 +14,18 @@ namespace BehaviourTrees
 
         public Status Process()
         {
-            if (index < nodes.Count)
+            Status status = nodes[index].Process();
+            if (status == Status.Success)
             {
-                switch (nodes[index].Process())
-                {
-                    case Status.Running:
-                        return Status.Running;
-                    case Status.Failed:
-                        break;
-                    case Status.Success:
-                        return Status.Success;
-                    default:
-                        index++;
-                        return Status.Running;
-                }
+                index = 0;
+                return Status.Success;
             }
 
-            return Status.Failed;
+            index++;
+            if (index >= nodes.Count - 1)
+                index = 0;
+
+            return Status.Running;
         }
     }
 }

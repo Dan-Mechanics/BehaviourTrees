@@ -16,7 +16,6 @@ namespace BehaviourTrees
         /// Possibly assign this via gameamanger if you
         /// wanna make the context more context.
         /// </summary>
-        [SerializeField] private Transform player = default;
         [SerializeField] private Transform weaponPickup = default;
         [SerializeField] private bool hasWeapon = default;
         [SerializeField] private SenseProfile sensePlayer = default;
@@ -25,26 +24,31 @@ namespace BehaviourTrees
         [SerializeField] private MoveToProfile patrolProfile = default;
         [SerializeField] private List<Transform> waypoints = default;
 
+        private Transform player;
         private INode behaviourTree;
 
-        private void Start()
+        public void Setup(Transform player)
         {
+            this.player = player;
             Blackboard blackboard = new Blackboard();
 
             Sequence patrol = new Sequence();
             waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, patrolProfile.minDistance, patrolProfile.speed)));
 
             MoveTo chase = new MoveTo(player, agent, chaseProfile.minDistance, chaseProfile.speed);
-            Conditional seesPlayerConditional = new Conditional(SeesPlayer, chase, patrol);
+            Conditional seesPlayerConditional = new Conditional(SensePlayer, chase, patrol);
 
             behaviourTree = seesPlayerConditional;
         }
 
-        private bool SeesPlayer()
+        private bool SensePlayer() => Sense(player, sensePlayer, player.tag);
+
+        private bool Sense(Transform target, SenseProfile sense, string tag = "Untagged")
         {
-            Vector3 dir = (player.position - transform.position).normalized;
-            return Physics.Raycast(transform.position, dir, out RaycastHit hit, sensePlayer.range,
-                sensePlayer.mask, QueryTriggerInteraction.Ignore) && hit.collider.CompareTag(player.tag);
+            Vector3 dir = (target.position - transform.position).normalized;
+            return Physics.Raycast(transform.position, dir, out RaycastHit hit, sense.range,
+                sense.mask, QueryTriggerInteraction.Ignore) && hit.collider.CompareTag(tag) &&
+                Vector3.Angle(transform.position, target.position) <= sense.maxViewingAngle;
         }
 
         private void FixedUpdate() => behaviourTree.Process();
@@ -54,6 +58,7 @@ namespace BehaviourTrees
         {
             public float range;
             public LayerMask mask;
+            public float maxViewingAngle;
         }
 
         [System.Serializable]
