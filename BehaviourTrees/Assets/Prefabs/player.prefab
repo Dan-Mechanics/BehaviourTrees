@@ -125,8 +125,8 @@ Camera:
   m_GameObject: {fileID: 4030755029230733540}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -251,8 +251,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 9212533883646788513}
   jump: {fileID: 11400000, guid: 1b4abb450e05c4f4cb0f83edbaba22d6, type: 2}
+  sprint: {fileID: 11400000, guid: 49752a8c2e7af2944b9cb2a7e45dabca, type: 2}
   speed: 7.5
   jumpSpeed: 6
+  sprintMultiplyer: 2
   groundedVelocity: -2
 --- !u!114 &860917921356621781
 MonoBehaviour:

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace BehaviourTrees
 {
-    public class MoveTo : Node
+    public class MoveTo : INode
     {
         private Transform target;
         private NavMeshAgent agent;
@@ -18,12 +18,13 @@ namespace BehaviourTrees
             this.speed = speed;
         }
 
-        public override Status Process()
+        public Status Process()
         {
             agent.speed = speed;
             agent.SetDestination(target.position);
+
             float dist = Vector3.Distance(agent.transform.position, target.position);
-            if (Vector3.Distance(agent.transform.position, target.position) <= minDistance)
+            if (dist <= minDistance)
                 return Status.Success;
 
             return Status.Running;

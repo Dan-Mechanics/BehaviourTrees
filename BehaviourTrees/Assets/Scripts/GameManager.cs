@@ -7,15 +7,13 @@ namespace BehaviourTrees
         private FirstPersonLook firstPersonLook;
         private PlayerMovement playerMovement;
         private SceneBoilerplate sceneBoilerplate;
-        private ILookInput lookInput;
-        private IMoveInput moveInput;
+        private SensitivityMouse sensitivityMouse;
 
         private void Awake()
         {
             firstPersonLook = FindAnyObjectByType<FirstPersonLook>();
             playerMovement = FindAnyObjectByType<PlayerMovement>();
-            moveInput = FindAnyObjectByType<PlayerMovement>();
-            lookInput = FindAnyObjectByType<SensitivityMouse>();
+            sensitivityMouse = FindAnyObjectByType<SensitivityMouse>();
             sceneBoilerplate = FindAnyObjectByType<SceneBoilerplate>();
         }
 
@@ -25,8 +23,8 @@ namespace BehaviourTrees
             sceneBoilerplate.Setup();
 
             firstPersonLook.SetupCursor();
-            firstPersonLook.SetLookInput(lookInput);
-            playerMovement.SetMoveInput(moveInput);
+            firstPersonLook.SetLookInput(sensitivityMouse);
+            playerMovement.SetMoveInput(playerMovement);
         }
     }
 }

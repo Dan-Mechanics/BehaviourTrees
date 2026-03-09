@@ -2,12 +2,13 @@ using System.Collections.Generic;
 
 namespace BehaviourTrees
 {
-    public class Parallel : Node
+    public class Parallel : INode
     {
-        private readonly List<Node> nodes = new List<Node>();
-        public void Add(Node node) => nodes.Add(node);
+        private readonly List<INode> nodes = new List<INode>();
 
-        public override Status Process()
+        public void Add(INode node) => nodes.Add(node);
+
+        public Status Process()
         {
             for (int i = 0; i < nodes.Count; i++)
             {

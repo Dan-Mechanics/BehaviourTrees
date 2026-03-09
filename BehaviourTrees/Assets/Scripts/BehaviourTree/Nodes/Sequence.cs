@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace BehaviourTrees
 {
-    public class Sequence : Node
+    public class Sequence : INode
     {
-        private readonly List<Node> nodes = new List<Node>();
+        private readonly List<INode> nodes = new List<INode>();
         private int index;
 
-        public void Add(Node node) => nodes.Add(node);
+        public void Add(INode node) => nodes.Add(node);
 
-        public override Status Process()
+        public Status Process()
         {
             Status status = nodes[index].Process();
             if (status == Status.Failed)

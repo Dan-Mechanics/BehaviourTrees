@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,37 +11,56 @@ namespace BehaviourTrees
     public class Guard : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent = default;
-        [SerializeField] private float minDistance = default;
-        [SerializeField] private float patrolSpeed = default;
-        [SerializeField] private bool check = default;
+
+        /// <summary>
+        /// Possibly assign this via gameamanger if you
+        /// wanna make the context more context.
+        /// </summary>
+        [SerializeField] private Transform player = default;
+        [SerializeField] private Transform weaponPickup = default;
+        [SerializeField] private bool hasWeapon = default;
+        [SerializeField] private SenseProfile sensePlayer = default;
+        [SerializeField] private SenseProfile senseWeapon = default;
+        [SerializeField] private MoveToProfile chaseProfile = default;
+        [SerializeField] private MoveToProfile patrolProfile = default;
         [SerializeField] private List<Transform> waypoints = default;
 
-        private bool GetCheck() => check;
-
-        private Node behaviourTree;
+        private INode behaviourTree;
 
         private void Start()
         {
-            List<Node> nodes = new List<Node>();
             Blackboard blackboard = new Blackboard();
 
             Sequence patrol = new Sequence();
-            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, minDistance, patrolSpeed)));
-            Conditional conditional = new Conditional(patrol, new Node(), GetCheck);
+            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, patrolProfile.minDistance, patrolProfile.speed)));
 
+            MoveTo chase = new MoveTo(player, agent, chaseProfile.minDistance, chaseProfile.speed);
+            Conditional seesPlayerConditional = new Conditional(SeesPlayer, chase, patrol);
 
-            /*foreach (object task in nodes)
-            {
-                if (task is IBlackboardRequired required)
-                    required.Blackboard = blackboard;
-            }*/
-
-            behaviourTree = conditional;
+            behaviourTree = seesPlayerConditional;
         }
 
-        private void FixedUpdate()
+        private bool SeesPlayer()
         {
-            behaviourTree.Process();
+            Vector3 dir = (player.position - transform.position).normalized;
+            return Physics.Raycast(transform.position, dir, out RaycastHit hit, sensePlayer.range,
+                sensePlayer.mask, QueryTriggerInteraction.Ignore) && hit.collider.CompareTag(player.tag);
+        }
+
+        private void FixedUpdate() => behaviourTree.Process();
+
+        [System.Serializable]
+        public struct SenseProfile 
+        {
+            public float range;
+            public LayerMask mask;
+        }
+
+        [System.Serializable]
+        public struct MoveToProfile
+        {
+            public float minDistance;
+            public float speed;
         }
     }
 }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Selector : Node
+    public class Selector : INode
     {
-        private readonly List<Node> nodes = new List<Node>();
+        private readonly List<INode> nodes = new List<INode>();
         private int index;
 
-        public void Add(Node node) => nodes.Add(node);
+        public void Add(INode node) => nodes.Add(node);
 
-        public override Status Process()
+        public Status Process()
         {
             if (index < nodes.Count)
             {

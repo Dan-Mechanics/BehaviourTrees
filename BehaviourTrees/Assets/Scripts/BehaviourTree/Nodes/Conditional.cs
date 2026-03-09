@@ -2,20 +2,20 @@ using System;
 
 namespace BehaviourTrees
 {
-    public class Conditional : Node
+    public class Conditional : INode
     {
-        private Node a;
-        private Node b;
         private Func<bool> predicate;
+        private INode a;
+        private INode b;
 
-        public Conditional(Node a, Node b, Func<bool> predicate)
+        public Conditional(Func<bool> predicate, INode a, INode b)
         {
+            this.predicate = predicate;
             this.a = a;
             this.b = b;
-            this.predicate = predicate;
         }
 
-        public override Status Process()
+        public Status Process()
         {
             Status status = (predicate() ? a : b).Process();
             if (status == Status.Failed)

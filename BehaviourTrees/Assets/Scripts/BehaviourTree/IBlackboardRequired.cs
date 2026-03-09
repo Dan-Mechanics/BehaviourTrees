@@ -7,6 +7,5 @@ namespace BehaviourTrees
     public interface IBlackboardRequired
     {
         Blackboard Blackboard { get; set; }
-        //void Assign(Blackboard blackboard);
     }
 }
