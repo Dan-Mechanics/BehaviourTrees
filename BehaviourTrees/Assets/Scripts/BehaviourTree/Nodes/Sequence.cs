@@ -12,22 +12,30 @@ namespace BehaviourTrees
 
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process()
+        public Status Evaluate()
         {
-            Status status = nodes[index].Process();
-            if (status == Status.Success)
+            bool anyChildIsRunning = false;
+
+            foreach (INode node in nodes)
             {
-                index++;
-                if (index >= nodes.Count - 1)
-                    index = 0;
-            }
-            else if (status == Status.Failed)
-            {
-                index = 0;
-                return Status.Failed;
+                switch (node.Evaluate())
+                {
+                    case NodeState.FAILURE:
+                        state = NodeState.FAILURE;
+                        return state;
+                    case NodeState.SUCCESS:
+                        continue;
+                    case NodeState.RUNNING:
+                        anyChildIsRunning = true;
+                        continue;
+                    default:
+                        state = NodeState.SUCCESS;
+                        return state;
+                }
             }
 
-            return Status.Running;
+            state = anyChildIsRunning ? NodeState.RUNNING : NodeState.SUCCESS;
+            return state;
         }
     }
 }

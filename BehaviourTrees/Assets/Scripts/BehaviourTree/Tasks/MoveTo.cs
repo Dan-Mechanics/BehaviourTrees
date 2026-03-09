@@ -18,7 +18,7 @@ namespace BehaviourTrees
             this.speed = speed;
         }
 
-        public Status Process()
+        public Status Evaluate()
         {
             agent.speed = speed;
             agent.SetDestination(target.position);

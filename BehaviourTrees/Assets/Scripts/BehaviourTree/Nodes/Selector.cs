@@ -12,9 +12,9 @@ namespace BehaviourTrees
 
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process()
+        public Status Evaluate()
         {
-            Status status = nodes[index].Process();
+            Status status = nodes[index].Evaluate();
             if (status == Status.Success)
             {
                 index = 0;

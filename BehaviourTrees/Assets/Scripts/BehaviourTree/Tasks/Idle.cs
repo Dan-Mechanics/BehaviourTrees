@@ -2,6 +2,6 @@ namespace BehaviourTrees
 {
     public class Idle : INode
     {
-        public Status Process() => Status.Running;
+        public Status Evaluate() => Status.Running;
     }
 }

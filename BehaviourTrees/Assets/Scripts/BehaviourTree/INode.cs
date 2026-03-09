@@ -4,6 +4,6 @@ namespace BehaviourTrees
 {
     public interface INode
     {
-        Status Process();
+        Status Evaluate();
     }
 }

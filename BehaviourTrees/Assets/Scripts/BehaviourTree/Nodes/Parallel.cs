@@ -10,11 +10,13 @@ namespace BehaviourTrees
         private readonly List<INode> nodes = new List<INode>();
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process()
+        public Status Evaluate()
         {
             for (int i = 0; i < nodes.Count; i++)
             {
-                Status status = nodes[i].Process();
+                Status status = nodes[i].Evaluate();
+                if (status != Status.Running)
+                    return status;
             }
 
             return Status.Running;

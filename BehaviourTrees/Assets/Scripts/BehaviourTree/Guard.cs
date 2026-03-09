@@ -25,7 +25,7 @@ namespace BehaviourTrees
         [SerializeField] private List<Transform> waypoints = default;
 
         private Transform player;
-        private INode behaviourTree;
+        private INode root;
 
         public void Setup(Transform player)
         {
@@ -38,7 +38,7 @@ namespace BehaviourTrees
             MoveTo chase = new MoveTo(player, agent, chaseProfile.minDistance, chaseProfile.speed);
             Conditional seesPlayerConditional = new Conditional(SensePlayer, chase, patrol);
 
-            behaviourTree = seesPlayerConditional;
+            root = seesPlayerConditional;
         }
 
         private bool SensePlayer() => Sense(player, sensePlayer, player.tag);
@@ -51,7 +51,7 @@ namespace BehaviourTrees
                 Vector3.Angle(transform.position, target.position) <= sense.maxViewingAngle;
         }
 
-        private void FixedUpdate() => behaviourTree.Process();
+        private void FixedUpdate() => root.Evaluate();
 
         [System.Serializable]
         public struct SenseProfile 

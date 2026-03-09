@@ -15,9 +15,9 @@ namespace BehaviourTrees
             this.b = b;
         }
 
-        public Status Process()
+        public Status Evaluate()
         {
-            Status status = (predicate() ? a : b).Process();
+            Status status = (predicate() ? a : b).Evaluate();
             if (status == Status.Failed)
                 return Status.Failed;
 
