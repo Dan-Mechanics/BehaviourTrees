@@ -15,8 +15,9 @@ namespace BehaviourTrees
             this.target = target;
         }
 
-        public Status Process()
+        public Status Process(out string name)
         {
+            name = GetType().ToString();
             Object.Destroy(target);
             pickup();
 

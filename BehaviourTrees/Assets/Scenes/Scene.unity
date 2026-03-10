@@ -1565,6 +1565,14 @@ PrefabInstance:
       propertyPath: sensePlayerSettings.maxRange
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
+      propertyPath: senseWeaponSettings.maxRange
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
+      propertyPath: sensePlayerSettings.maxViewingAngle
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 4592572861882913877, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.75

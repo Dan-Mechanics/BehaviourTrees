@@ -16,8 +16,9 @@ namespace BehaviourTrees
             this.settings = settings;
         }
 
-        public Status Process()
+        public Status Process(out string name)
         {
+            name = target.name;
             if (target == null)
                 return Status.Failure;
             
@@ -28,11 +29,8 @@ namespace BehaviourTrees
             if (dist <= settings.minDistance)
                 return Status.Success;
 
-            ServiceLocator<IDebugService>.Locate().DisplayText(GetName());
             return Status.Running;
         }
-
-        public string GetName() => target.name;
 
         [System.Serializable]
         public struct Settings

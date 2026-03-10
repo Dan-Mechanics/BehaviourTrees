@@ -15,11 +15,12 @@ namespace BehaviourTrees
 
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process()
+        public Status Process(out string name)
         {
+            name = GetType().ToString();
             for (; index < nodes.Count; index++)
             {
-                switch (nodes[index].Process())
+                switch (nodes[index].Process(out name))
                 {
                     case Status.Running:
                         return Status.Running;

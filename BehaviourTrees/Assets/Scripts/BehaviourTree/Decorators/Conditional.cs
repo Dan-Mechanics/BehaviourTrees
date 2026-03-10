@@ -13,10 +13,11 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public Status Process()
+        public Status Process(out string name)
         {
+            name = GetType().ToString();
             if (predicate())
-                return node.Process();
+                return node.Process(out name);
 
             return Status.Failure;
         }

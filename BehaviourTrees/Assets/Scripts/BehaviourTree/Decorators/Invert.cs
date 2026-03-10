@@ -9,10 +9,10 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public Status Process()
+        public Status Process(out string name)
         {
             // FUNNY SYNTAX HERE:
-            return node.Process() switch
+            return node.Process(out name) switch
             {
                 Status.Failure => Status.Success,
                 Status.Success => Status.Failure,

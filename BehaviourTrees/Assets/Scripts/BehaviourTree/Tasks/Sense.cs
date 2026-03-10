@@ -15,17 +15,18 @@ namespace BehaviourTrees
             this.target = target;
         }
 
-        public Status Process()
+        public Status Process(out string name)
         {
-            Debug.Log(target.name);
+            name = GetType().ToString();
             if (target == null)
                 return Status.Failure;
-            
-            Vector3 dir = (target.position - self.position).normalized;
-            bool hasFound = Physics.Raycast(self.position, dir, out RaycastHit hit, settings.maxRange,
-                settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
-                Vector3.Angle(self.forward, dir) <= settings.maxViewingAngle;
 
+            /*Vector3 dir = target.position - self.position;
+            bool hasFound = Physics.Raycast(self.position, dir.normalized, out RaycastHit hit, settings.maxRange,
+                settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
+                Vector3.Angle(dir, self.forward) <= settings.maxViewingAngle;*/
+
+            bool hasFound = Vector3.Distance(target.position, self.position) < settings.maxRange;
             if (hasFound)
                 return Status.Success;
 

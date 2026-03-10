@@ -5,7 +5,7 @@ using TMPro;
 
 namespace BehaviourTrees
 {
-    public class Guard : MonoBehaviour, IDebugService
+    public class Guard : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent = default;
         [SerializeField] private TMP_Text billboardText = default;
@@ -37,7 +37,7 @@ namespace BehaviourTrees
 
             Sequence chase = new Sequence(
                 new Sense(sensePlayerSettings, transform, player),
-                new Invert(new Conditional(() => { return !hasWeapon; }, getWeapon)),
+                new FailIsSucceed(new Conditional(() => { return !hasWeapon; }, getWeapon)),
                 new MoveTo(player, agent, urgentMovement),
                 new Wait(2f)); // attack here.
 
@@ -47,7 +47,8 @@ namespace BehaviourTrees
 
         private void FixedUpdate()
         {
-            root.Process();
+            root.Process(out string currentNode);
+            DisplayText(currentNode);
             weaponGraphic.SetActive(hasWeapon);
         }
 

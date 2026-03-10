@@ -4,7 +4,6 @@ namespace BehaviourTrees
 {
     public interface INode
     {
-        Status Process();
-        string GetName() { return GetType().ToString(); }
+        Status Process(out string name);
     }
 }
