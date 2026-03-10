@@ -1,10 +1,10 @@
 namespace BehaviourTrees
 {
-    public class Inverter : INode
+    public class Invert : INode
     {
         private readonly INode node;
 
-        public Inverter(INode node)
+        public Invert(INode node)
         {
             this.node = node;
         }

@@ -12,16 +12,17 @@ namespace BehaviourTrees
         [SerializeField] private GameObject weaponGraphic = default;
         [SerializeField] private bool hasWeapon = default;
 
-        [Header("Settings")]
+        [Space(25)]
         [SerializeField] private Sense.Settings sensePlayerSettings = default;
         [SerializeField] private Sense.Settings senseWeaponSettings = default;
         [SerializeField] private MoveTo.Settings urgentMovement = default;
         [SerializeField] private MoveTo.Settings regularMovement = default;
 
-        [Header("External")]
+        [Space(25)]
         [SerializeField] private Transform player = default;
         [SerializeField] private Transform weapon = default;
         [SerializeField] private List<Transform> waypoints = default;
+
         private INode root;
 
         public void Setup()
@@ -36,8 +37,9 @@ namespace BehaviourTrees
 
             Sequence chase = new Sequence(
                 new Sense(sensePlayerSettings, transform, player),
-                new Conditional(() => { return !hasWeapon; }, getWeapon),
-                new MoveTo(player, agent, urgentMovement));
+                new Invert(new Conditional(() => { return !hasWeapon; }, getWeapon)),
+                new MoveTo(player, agent, urgentMovement),
+                new Wait(2f)); // attack here.
 
             Selector selector = new Selector(chase, patrol);
             root = selector;

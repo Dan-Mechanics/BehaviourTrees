@@ -13,12 +13,16 @@ namespace BehaviourTrees
             this.delay = delay;
         }
 
+        public string GetName() => "Waiting ...";
+
         public Status Process()
         {
             if (!ticking)
             {
                 doneTime = Time.time + delay;
                 ticking = true;
+
+                ServiceLocator<IDebugService>.Locate().DisplayText(GetName());
                 return Status.Running;
             }
 

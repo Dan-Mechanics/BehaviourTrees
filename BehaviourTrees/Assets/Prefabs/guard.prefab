@@ -290,28 +290,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 2693701176999614967}
   billboardText: {fileID: 8323029091503709558}
-  weaponGraphic: {fileID: 0}
+  weaponGraphic: {fileID: 7966803354270950159}
   hasWeapon: 0
   sensePlayerSettings:
     maxRange: 12
     mask:
       serializedVersion: 2
       m_Bits: 1
-    maxViewingAngle: 100
-    tag: Player
+    maxViewingAngle: 180
   senseWeaponSettings:
-    maxRange: 0
+    maxRange: 15
     mask:
       serializedVersion: 2
-      m_Bits: 0
-    maxViewingAngle: 0
-    tag: 
-  urgent:
-    speed: 0
-    minDistance: 0
-  relaxed:
-    speed: 0
-    minDistance: 0
+      m_Bits: 1
+    maxViewingAngle: 1000
+  urgentMovement:
+    speed: 8
+    minDistance: 3
+  regularMovement:
+    speed: 5
+    minDistance: 3
   player: {fileID: 0}
   weapon: {fileID: 0}
   waypoints:
@@ -381,7 +379,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 43db5a6c40d00284ea2b577f0eb94d32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -464,7 +462,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 43db5a6c40d00284ea2b577f0eb94d32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

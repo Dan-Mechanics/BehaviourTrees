@@ -18,6 +18,9 @@ namespace BehaviourTrees
 
         public Status Process()
         {
+            if (target == null)
+                return Status.Failure;
+            
             agent.speed = settings.speed;
             agent.SetDestination(target.position);
 
