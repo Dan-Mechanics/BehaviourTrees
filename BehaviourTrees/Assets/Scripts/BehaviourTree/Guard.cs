@@ -30,18 +30,19 @@ namespace BehaviourTrees
             Sequence patrol = new Sequence();
             waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, regularMovement)));
 
-            Sequence gatherWeapon = new Sequence(
+            Sequence getWeapon = new Sequence(
+                new Condition(() => { return !hasWeapon; }),
+                new Sense(senseWeaponSettings, transform, weapon),
                 new MoveTo(weapon, agent, urgentMovement),
                 new Pickup(() => { hasWeapon = true; }, weapon.gameObject));
 
-            Sequence attackPlayer = new Sequence(
+            Sequence chase = new Sequence(
+                new AlwaysSucceeds(getWeapon),
                 new MoveTo(player, agent, urgentMovement),
                 new Wait(2f)); // attack here.
 
-            Conditional lookForWeapon = new Conditional(new Sense(senseWeaponSettings, transform, weapon), attackPlayer, gatherWeapon);
-            Conditional lookForPlayer = new Conditional(new Sense(sensePlayerSettings, transform, player), lookForWeapon, patrol);
-
-            root = lookForPlayer;
+            Conditional seesPlayer = new Conditional(new Sense(sensePlayerSettings, transform, player), chase, patrol);
+            root = seesPlayer;
         }
 
         private void FixedUpdate()

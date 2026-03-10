@@ -18,7 +18,12 @@ namespace BehaviourTrees
         public Status Process(out string name)
         {
             name = GetType().ToString();
-            return input.Process(out name) == Status.Success ? a.Process(out name) : b.Process(out name));
+            if (input.Process(out name) == Status.Success)
+            {
+                return a.Process(out name);
+            }
+
+            return b.Process(out name);
         }
     }
 }

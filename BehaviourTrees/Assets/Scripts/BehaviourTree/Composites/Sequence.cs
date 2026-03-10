@@ -22,8 +22,8 @@ namespace BehaviourTrees
             {
                 switch (nodes[index].Process(out name))
                 {
-                    case Status.Running:
-                        return Status.Running;
+                    case Status.Standby:
+                        return Status.Standby;
                     case Status.Failure:
                         index = 0;
                         return Status.Failure;
