@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,27 +16,32 @@ namespace BehaviourTrees
 
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            name = GetType().ToString();
-            for (; index < nodes.Count; index++)
+            name = GetType().Name;
+            if (index < nodes.Count)
             {
-                switch (nodes[index].Process(out name))
+                switch (nodes[index].Process(ref name))
                 {
-                    case Status.Standby:
-                        return Status.Standby;
+                    case Status.Running:
+                        return Status.Running;
                     case Status.Success:
-                        index = 0;
+                        Reset();
                         return Status.Success;
-                    case Status.Failure:
-                        continue;
                     default:
-                        break;
+                        index++;
+                        return Status.Running;
                 }
             }
 
+            Reset();
+            return Status.Failure;
+        }
+
+        public void Reset()
+        {
             index = 0;
-            return Status.Success;
+            nodes.ForEach(x => x.Reset());
         }
     }
 }

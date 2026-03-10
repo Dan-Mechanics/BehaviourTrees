@@ -2,10 +2,10 @@ namespace BehaviourTrees
 {
     public class Idle : INode
     {
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            name = GetType().ToString();
-            return Status.Standby;
+            name = GetType().Name;
+            return Status.Running;
         }
     }
 }

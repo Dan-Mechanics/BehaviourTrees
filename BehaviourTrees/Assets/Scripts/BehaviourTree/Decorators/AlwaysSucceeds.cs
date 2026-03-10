@@ -11,13 +11,15 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            Status status = node.Process(out name);
+            Status status = node.Process(ref name);
             if (status == Status.Failure)
                 return Status.Success;
 
             return status;
         }
+
+        public void Reset() => node.Reset();
     }
 }

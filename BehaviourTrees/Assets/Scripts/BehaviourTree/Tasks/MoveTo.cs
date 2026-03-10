@@ -16,7 +16,7 @@ namespace BehaviourTrees
             this.settings = settings;
         }
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
             name = target.name;
             if (target == null)
@@ -29,7 +29,7 @@ namespace BehaviourTrees
             if (dist <= settings.minDistance)
                 return Status.Success;
 
-            return Status.Standby;
+            return Status.Running;
         }
 
         [System.Serializable]

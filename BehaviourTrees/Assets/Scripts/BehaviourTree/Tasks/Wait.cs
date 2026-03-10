@@ -13,14 +13,14 @@ namespace BehaviourTrees
             this.delay = delay;
         }
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            name = GetType().ToString();
+            name = GetType().Name;
             if (!ticking)
             {
                 doneTime = Time.time + delay;
                 ticking = true;
-                return Status.Standby;
+                return Status.Running;
             }
 
             if (ticking && Time.time >= doneTime)
@@ -29,7 +29,7 @@ namespace BehaviourTrees
                 return Status.Success;
             }
 
-            return Status.Standby;
+            return Status.Running;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace BehaviourTrees
 {
     public interface INode
     {
-        Status Process(out string name);
+        Status Process(ref string name);
+        void Reset() { }
     }
 }

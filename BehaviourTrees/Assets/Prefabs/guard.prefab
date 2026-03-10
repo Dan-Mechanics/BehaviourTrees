@@ -291,19 +291,21 @@ MonoBehaviour:
   agent: {fileID: 2693701176999614967}
   billboardText: {fileID: 8323029091503709558}
   weaponGraphic: {fileID: 7966803354270950159}
+  resetInterval: 0.8
+  attackTime: 0.3
   hasWeapon: 0
   sensePlayerSettings:
-    maxRange: 12
+    maxRange: 7.25
     mask:
       serializedVersion: 2
       m_Bits: 1
     maxViewingAngle: 180
   senseWeaponSettings:
-    maxRange: 15
+    maxRange: 5
     mask:
       serializedVersion: 2
       m_Bits: 1
-    maxViewingAngle: 1000
+    maxViewingAngle: 10000
   urgentMovement:
     speed: 8
     minDistance: 3

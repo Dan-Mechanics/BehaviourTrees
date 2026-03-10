@@ -9,14 +9,14 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            // FUNNY SYNTAX HERE:
-            return node.Process(out name) switch
+            name = GetType().Name;
+            return node.Process(ref name) switch
             {
                 Status.Failure => Status.Success,
                 Status.Success => Status.Failure,
-                _ => Status.Standby,
+                _ => Status.Running,
             };
         }
     }

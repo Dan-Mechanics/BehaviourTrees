@@ -14,14 +14,14 @@ namespace BehaviourTrees
 
         public void Add(INode node) => nodes.Add(node);
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            name = GetType().ToString();
-            Status result = Status.Standby;
+            name = GetType().Name;
+            Status result = Status.Running;
             for (int i = 0; i < nodes.Count; i++)
             {
-                Status status = nodes[i].Process(out name);
-                if (status != Status.Standby)
+                Status status = nodes[i].Process(ref name);
+                if (status != Status.Running)
                     result = status;
             }
 

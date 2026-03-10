@@ -4,26 +4,22 @@ namespace BehaviourTrees
 {
     public class Conditional : INode
     {
-        private readonly INode input;
-        private readonly INode a;
-        private readonly INode b;
+        private readonly Func<bool> predicate;
+        private readonly INode node;
 
-        public Conditional(INode input, INode a, INode b)
+        public Conditional(Func<bool> predicate, INode node)
         {
-            this.input = input;
-            this.a = a;
-            this.b = b;
+            this.predicate = predicate;
+            this.node = node;
         }
 
-        public Status Process(out string name)
+        public Status Process(ref string name)
         {
-            name = GetType().ToString();
-            if (input.Process(out name) == Status.Success)
-            {
-                return a.Process(out name);
-            }
+            name = GetType().Name;
+            if (predicate())
+                return node.Process(ref name);
 
-            return b.Process(out name);
+            return Status.Failure;
         }
     }
 }
