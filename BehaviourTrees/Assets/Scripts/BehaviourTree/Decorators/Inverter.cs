@@ -9,14 +9,14 @@ namespace BehaviourTrees
             this.node = node;
         }
 
-        public Status Evaluate()
+        public Status Process()
         {
-            Status result = node.Evaluate();
-            if (result == Status.Failed)
+            Status result = node.Process();
+            if (result == Status.Failure)
                 return Status.Success;
 
             if (result == Status.Success)
-                return Status.Failed;
+                return Status.Failure;
 
             return result;
         }

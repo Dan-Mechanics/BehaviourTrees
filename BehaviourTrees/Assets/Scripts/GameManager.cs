@@ -23,7 +23,6 @@ namespace BehaviourTrees
 
         private void Start()
         {
-            // THIS NEEDS TO GO FIRST.
             sceneBoilerplate.Setup();
 
             guard.Setup(player);

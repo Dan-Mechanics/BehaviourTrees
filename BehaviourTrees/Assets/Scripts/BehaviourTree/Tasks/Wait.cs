@@ -13,7 +13,7 @@ namespace BehaviourTrees
             this.delay = delay;
         }
 
-        public Status Evaluate()
+        public Status Process()
         {
             if (!ticking)
             {

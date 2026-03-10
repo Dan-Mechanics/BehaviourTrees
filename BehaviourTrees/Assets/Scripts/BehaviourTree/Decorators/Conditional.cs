@@ -15,11 +15,11 @@ namespace BehaviourTrees
             this.b = b;
         }
 
-        public Status Evaluate()
+        public Status Process()
         {
-            Status status = (predicate() ? a : b).Evaluate();
-            if (status == Status.Failed)
-                return Status.Failed;
+            Status status = (predicate() ? a : b).Process();
+            if (status == Status.Failure)
+                return Status.Failure;
 
             return Status.Running;
         }

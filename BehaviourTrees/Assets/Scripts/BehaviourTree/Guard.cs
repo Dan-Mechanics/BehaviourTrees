@@ -51,7 +51,7 @@ namespace BehaviourTrees
                 Vector3.Angle(transform.position, target.position) <= sense.maxViewingAngle;
         }
 
-        private void FixedUpdate() => root.Evaluate();
+        private void FixedUpdate() => root.Process();
 
         [System.Serializable]
         public struct SenseProfile 
