@@ -8,8 +8,8 @@ namespace BehaviourTrees
         private PlayerMovement playerMovement;
         private SceneBoilerplate sceneBoilerplate;
         private SensitivityMouse sensitivityMouse;
-        private Guard guard;
         private Transform player;
+        private Guard guard;
 
         private void Awake()
         {
@@ -24,8 +24,9 @@ namespace BehaviourTrees
         private void Start()
         {
             sceneBoilerplate.Setup();
+            ServiceLocator<IDebugService>.Provide(guard);
 
-            guard.Setup(player);
+            guard.Setup();
             firstPersonLook.SetupCursor();
             firstPersonLook.SetLookInput(sensitivityMouse);
             playerMovement.SetMoveInput(playerMovement);

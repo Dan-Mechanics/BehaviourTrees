@@ -16,9 +16,6 @@ namespace BehaviourTrees
 
         public void SetMoveInput(IMoveInput moveInput) => this.moveInput = moveInput;
 
-        /// <summary>
-        /// Nothing is more permanent than a temporary solution.
-        /// </summary>
         public Vector3 GetMovement()
         {
             Vector3 movement = (Input.GetAxisRaw("Horizontal") * transform.right) + (Input.GetAxisRaw("Vertical") * transform.forward);

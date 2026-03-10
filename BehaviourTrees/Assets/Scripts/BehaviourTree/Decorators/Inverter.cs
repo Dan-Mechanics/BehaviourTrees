@@ -11,14 +11,13 @@ namespace BehaviourTrees
 
         public Status Process()
         {
-            Status result = node.Process();
-            if (result == Status.Failure)
-                return Status.Success;
-
-            if (result == Status.Success)
-                return Status.Failure;
-
-            return result;
+            // FUNNY SYNTAX HERE:
+            return node.Process() switch
+            {
+                Status.Failure => Status.Success,
+                Status.Success => Status.Failure,
+                _ => Status.Running,
+            };
         }
     }
 }

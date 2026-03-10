@@ -1,71 +1,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 namespace BehaviourTrees
 {
-    /// <summary>
-    /// https://medium.com/@lemapp09/beginning-game-development-behavior-trees-24f12c6b1e35
-    /// This is the content script for the guard.
-    /// </summary>
-    public class Guard : MonoBehaviour
+    public class Guard : MonoBehaviour, IDebugService
     {
         [SerializeField] private NavMeshAgent agent = default;
-
-        /// <summary>
-        /// Possibly assign this via gameamanger if you
-        /// wanna make the context more context.
-        /// </summary>
-        [SerializeField] private Transform weaponPickup = default;
+        [SerializeField] private TMP_Text billboardText = default;
+        [SerializeField] private GameObject weaponGraphic = default;
         [SerializeField] private bool hasWeapon = default;
-        [SerializeField] private SenseProfile sensePlayer = default;
-        [SerializeField] private SenseProfile senseWeapon = default;
-        [SerializeField] private MoveToProfile chaseProfile = default;
-        [SerializeField] private MoveToProfile patrolProfile = default;
-        [SerializeField] private List<Transform> waypoints = default;
 
-        private Transform player;
+        [Header("Settings")]
+        [SerializeField] private Sense.Settings sensePlayerSettings = default;
+        [SerializeField] private Sense.Settings senseWeaponSettings = default;
+        [SerializeField] private MoveTo.Settings urgentMovement = default;
+        [SerializeField] private MoveTo.Settings regularMovement = default;
+
+        [Header("External")]
+        [SerializeField] private Transform player = default;
+        [SerializeField] private Transform weapon = default;
+        [SerializeField] private List<Transform> waypoints = default;
         private INode root;
 
-        public void Setup(Transform player)
+        public void Setup()
         {
-            this.player = player;
-            Blackboard blackboard = new Blackboard();
-
             Sequence patrol = new Sequence();
-            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, patrolProfile.minDistance, patrolProfile.speed)));
+            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, regularMovement)));
 
-            MoveTo chase = new MoveTo(player, agent, chaseProfile.minDistance, chaseProfile.speed);
-            Conditional seesPlayerConditional = new Conditional(SensePlayer, chase, patrol);
+            Sequence getWeapon = new Sequence(
+                new Sense(senseWeaponSettings, transform, weapon),
+                new MoveTo(weapon, agent, urgentMovement),
+                new Pickup(() => { hasWeapon = true; }, weapon.gameObject));
 
-            root = seesPlayerConditional;
+            Sequence chase = new Sequence(
+                new Sense(sensePlayerSettings, transform, player),
+                new Conditional(() => { return !hasWeapon; }, getWeapon),
+                new MoveTo(player, agent, urgentMovement));
+
+            Selector selector = new Selector(chase, patrol);
+            root = selector;
         }
 
-        private bool SensePlayer() => Sense(player, sensePlayer, player.tag);
-
-        private bool Sense(Transform target, SenseProfile sense, string tag = "Untagged")
+        private void FixedUpdate()
         {
-            Vector3 dir = (target.position - transform.position).normalized;
-            return Physics.Raycast(transform.position, dir, out RaycastHit hit, sense.range,
-                sense.mask, QueryTriggerInteraction.Ignore) && hit.collider.CompareTag(tag) &&
-                Vector3.Angle(transform.position, target.position) <= sense.maxViewingAngle;
+            root.Process();
+            weaponGraphic.SetActive(hasWeapon);
         }
 
-        private void FixedUpdate() => root.Process();
-
-        [System.Serializable]
-        public struct SenseProfile 
-        {
-            public float range;
-            public LayerMask mask;
-            public float maxViewingAngle;
-        }
-
-        [System.Serializable]
-        public struct MoveToProfile
-        {
-            public float minDistance;
-            public float speed;
-        }
+        public void DisplayText(string str) => billboardText.text = str;
     }
 }

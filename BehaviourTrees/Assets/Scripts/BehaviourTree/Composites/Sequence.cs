@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BehaviourTrees
 {
@@ -6,6 +7,11 @@ namespace BehaviourTrees
     {
         private readonly List<INode> nodes = new List<INode>();
         private int index;
+
+        public Sequence(params INode[] nodes)
+        {
+            this.nodes = nodes.ToList();
+        }
 
         public void Add(INode node) => nodes.Add(node);
 

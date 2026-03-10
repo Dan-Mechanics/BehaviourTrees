@@ -5,29 +5,37 @@ namespace BehaviourTrees
 {
     public class MoveTo : INode
     {
-        private Transform target;
-        private NavMeshAgent agent;
-        private float minDistance;
-        private float speed;
+        private readonly Transform target;
+        private readonly NavMeshAgent agent;
+        private readonly Settings settings;
 
-        public MoveTo(Transform target, NavMeshAgent agent, float minDistance, float speed)
+        public MoveTo(Transform target, NavMeshAgent agent, Settings settings)
         {
             this.target = target;
             this.agent = agent;
-            this.minDistance = minDistance;
-            this.speed = speed;
+            this.settings = settings;
         }
 
         public Status Process()
         {
-            agent.speed = speed;
+            agent.speed = settings.speed;
             agent.SetDestination(target.position);
 
             float dist = Vector3.Distance(agent.transform.position, target.position);
-            if (dist <= minDistance)
+            if (dist <= settings.minDistance)
                 return Status.Success;
 
+            ServiceLocator<IDebugService>.Locate().DisplayText(GetName());
             return Status.Running;
+        }
+
+        public string GetName() => target.name;
+
+        [System.Serializable]
+        public struct Settings
+        {
+            public float speed;
+            public float minDistance;
         }
     }
 }

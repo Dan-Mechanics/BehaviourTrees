@@ -4,24 +4,21 @@ namespace BehaviourTrees
 {
     public class Conditional : INode
     {
-        private Func<bool> predicate;
-        private INode a;
-        private INode b;
+        private readonly Func<bool> predicate;
+        private readonly INode node;
 
-        public Conditional(Func<bool> predicate, INode a, INode b)
+        public Conditional(Func<bool> predicate, INode node)
         {
             this.predicate = predicate;
-            this.a = a;
-            this.b = b;
+            this.node = node;
         }
 
         public Status Process()
         {
-            Status status = (predicate() ? a : b).Process();
-            if (status == Status.Failure)
-                return Status.Failure;
+            if (predicate())
+                return node.Process();
 
-            return Status.Running;
+            return Status.Failure;
         }
     }
 }
