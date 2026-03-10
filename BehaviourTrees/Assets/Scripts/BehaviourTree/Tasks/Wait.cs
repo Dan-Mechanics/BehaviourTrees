@@ -20,7 +20,7 @@ namespace BehaviourTrees
             {
                 doneTime = Time.time + delay;
                 ticking = true;
-                return Status.Running;
+                return Status.Standby;
             }
 
             if (ticking && Time.time >= doneTime)
@@ -29,7 +29,7 @@ namespace BehaviourTrees
                 return Status.Success;
             }
 
-            return Status.Running;
+            return Status.Standby;
         }
     }
 }

@@ -2,11 +2,11 @@ using System;
 
 namespace BehaviourTrees
 {
-    public class FailIsSucceed : INode
+    public class AlwaysSucceeds : INode
     {
         private readonly INode node;
 
-        public FailIsSucceed(INode node)
+        public AlwaysSucceeds(INode node)
         {
             this.node = node;
         }

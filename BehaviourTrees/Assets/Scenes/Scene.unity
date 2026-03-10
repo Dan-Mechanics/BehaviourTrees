@@ -1563,7 +1563,7 @@ PrefabInstance:
       objectReference: {fileID: 705791092}
     - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
       propertyPath: sensePlayerSettings.maxRange
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
       propertyPath: senseWeaponSettings.maxRange

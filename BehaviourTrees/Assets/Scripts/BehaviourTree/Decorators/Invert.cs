@@ -16,7 +16,7 @@ namespace BehaviourTrees
             {
                 Status.Failure => Status.Success,
                 Status.Success => Status.Failure,
-                _ => Status.Running,
+                _ => Status.Standby,
             };
         }
     }

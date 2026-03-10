@@ -29,7 +29,7 @@ namespace BehaviourTrees
             if (dist <= settings.minDistance)
                 return Status.Success;
 
-            return Status.Running;
+            return Status.Standby;
         }
 
         [System.Serializable]

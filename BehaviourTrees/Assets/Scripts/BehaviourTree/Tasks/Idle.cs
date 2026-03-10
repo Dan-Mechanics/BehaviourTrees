@@ -5,7 +5,7 @@ namespace BehaviourTrees
         public Status Process(out string name)
         {
             name = GetType().ToString();
-            return Status.Running;
+            return Status.Standby;
         }
     }
 }
