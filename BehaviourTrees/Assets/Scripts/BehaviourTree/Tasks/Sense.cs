@@ -21,12 +21,12 @@ namespace BehaviourTrees
             if (target == null)
                 return Status.Failure;
 
-            /*Vector3 dir = target.position - self.position;
+            Vector3 dir = target.position - self.position;
             bool hasFound = Physics.Raycast(self.position, dir.normalized, out RaycastHit hit, settings.maxRange,
                 settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
-                Vector3.Angle(dir, self.forward) <= settings.maxViewingAngle;*/
+                Vector3.Angle(dir, self.forward) <= settings.maxViewingAngle;
 
-            bool hasFound = Vector3.Distance(target.position, self.position) < settings.maxRange;
+           // bool hasFound = Vector3.Distance(target.position, self.position) < settings.maxRange;
             if (hasFound)
                 return Status.Success;
 
@@ -39,6 +39,7 @@ namespace BehaviourTrees
             public float maxRange;
             public LayerMask mask;
             public float maxViewingAngle;
+            public Color color;
         }
     }
 }

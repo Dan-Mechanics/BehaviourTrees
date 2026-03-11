@@ -291,27 +291,36 @@ MonoBehaviour:
   agent: {fileID: 2693701176999614967}
   billboardText: {fileID: 8323029091503709558}
   weaponGraphic: {fileID: 7966803354270950159}
-  resetInterval: 0.8
+  resetInterval: 2
   attackTime: 0.3
   hasWeapon: 0
+  maxHeldWeaponAngle: 30
   sensePlayerSettings:
-    maxRange: 7.25
-    mask:
-      serializedVersion: 2
-      m_Bits: 1
-    maxViewingAngle: 180
-  senseWeaponSettings:
-    maxRange: 5
+    maxRange: 10
     mask:
       serializedVersion: 2
       m_Bits: 1
     maxViewingAngle: 10000
+    color: {r: 1, g: 0, b: 0, a: 0.5019608}
+  senseWeaponSettings:
+    maxRange: 12
+    mask:
+      serializedVersion: 2
+      m_Bits: 1
+    maxViewingAngle: 10000
+    color: {r: 0, g: 0, b: 1, a: 0.56078434}
   urgentMovement:
     speed: 8
     minDistance: 3
   regularMovement:
     speed: 5
     minDistance: 3
+  damageSettings:
+    radius: 4
+    mask:
+      serializedVersion: 2
+      m_Bits: 1
+    damage: 100
   player: {fileID: 0}
   weapon: {fileID: 0}
   waypoints:

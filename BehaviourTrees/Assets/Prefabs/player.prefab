@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2813585827415559306}
   - component: {fileID: 632533920826926805}
   m_Layer: 0
-  m_Name: eyes
+  m_Name: cam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,8 +125,8 @@ Camera:
   m_GameObject: {fileID: 4030755029230733540}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 9212533883646788513}
   - component: {fileID: 6717284499361556350}
   - component: {fileID: 860917921356621781}
+  - component: {fileID: 3958636493321304910}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -252,7 +253,7 @@ MonoBehaviour:
   controller: {fileID: 9212533883646788513}
   jump: {fileID: 11400000, guid: 1b4abb450e05c4f4cb0f83edbaba22d6, type: 2}
   sprint: {fileID: 11400000, guid: 49752a8c2e7af2944b9cb2a7e45dabca, type: 2}
-  speed: 7.5
+  speed: 6
   jumpSpeed: 6
   sprintMultiplyer: 2
   groundedVelocity: -2
@@ -270,3 +271,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyes: {fileID: 505662378533092225}
   rotation: {x: 0, y: 0}
+--- !u!114 &3958636493321304910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459715216591067355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab6c76b101eba44a81c178ecb907001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fade: {fileID: 0}
+  dmgToFadeConversion: 0.05
+  health: 100

@@ -13,35 +13,39 @@ namespace BehaviourTrees
         [SerializeField] private float resetInterval = default;
         [SerializeField] private float attackTime = default;    
         [SerializeField] private bool hasWeapon = default;
+        [SerializeField] private float maxHeldWeaponAngle = default;
 
         [Space(25)]
         [SerializeField] private Sense.Settings sensePlayerSettings = default;
         [SerializeField] private Sense.Settings senseWeaponSettings = default;
         [SerializeField] private MoveTo.Settings urgentMovement = default;
         [SerializeField] private MoveTo.Settings regularMovement = default;
+        [SerializeField] private DealDamage.Settings damageSettings = default;
 
         [Space(25)]
-        [SerializeField] private Transform player = default;
+        [SerializeField] private Player player = default;
         [SerializeField] private Transform weapon = default;
         [SerializeField] private List<Transform> waypoints = default;
-
         private INode root;
 
         public void Setup()
         {
-            Sequence patrol = new Sequence(false);
+            Sequence patrol = new Sequence();
             waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, regularMovement)));
+            patrol.AllowExternalReset(false);
 
-            Sequence getWeapon = new Sequence(true,
+            Sequence getWeapon = new Sequence(
                 new Sense(senseWeaponSettings, transform, weapon),
                 new MoveTo(weapon, agent, urgentMovement),
                 new Pickup(() => { hasWeapon = true; }, weapon.gameObject));
 
-            Sequence chase = new Sequence(true,
-                new Sense(sensePlayerSettings, transform, player),
+            Sequence chase = new Sequence(
+                new Sense(sensePlayerSettings, transform, player.transform),
                 new AlwaysSucceeds(new Conditional(() => { return !hasWeapon; }, getWeapon)),
-                new MoveTo(player, agent, urgentMovement),
-                new Wait(attackTime)); // <-- TEMP CODE, ATTACK GOES HERE.
+                new MoveTo(player.transform, agent, urgentMovement),
+                new Attacking(attackTime, weaponGraphic.transform, maxHeldWeaponAngle),
+                new DealDamage(transform, damageSettings),
+                new Invert(new Condition(player.GetAlive)));
 
             Selector selector = new Selector(chase, patrol);
             root = selector;
@@ -64,18 +68,14 @@ namespace BehaviourTrees
         private void OnDrawGizmos()
         {
             ShowSettings(sensePlayerSettings);
-          //  ShowSettings(senseWeaponSettings);
+            // ShowSettings(senseWeaponSettings);
         }
 
         private void ShowSettings(Sense.Settings settings)
         {
-            // Set the color with custom alpha
-            Gizmos.color = new Color(1f, 0f, 0f, 0.5f); // Red with custom alpha
-
-            // Draw the sphere
+            Gizmos.color = settings.color;
             Gizmos.DrawSphere(transform.position, settings.maxRange);
 
-            // Draw wire sphere outline
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(transform.position, settings.maxRange);
         }

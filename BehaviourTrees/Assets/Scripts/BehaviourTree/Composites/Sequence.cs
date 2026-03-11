@@ -6,16 +6,17 @@ namespace BehaviourTrees
     public class Sequence : INode
     {
         private readonly List<INode> nodes = new List<INode>();
-        private readonly bool allowExternalReset;
+        private bool allowExternalReset;
         private int index;
 
-        public Sequence(bool allowExternalReset, params INode[] nodes)
+        public Sequence(params INode[] nodes)
         {
             this.nodes = nodes.ToList();
-            this.allowExternalReset = allowExternalReset;
+            AllowExternalReset(true);
         }
 
         public void Add(INode node) => nodes.Add(node);
+        public void AllowExternalReset(bool value) => allowExternalReset = value;
 
         public Status Process(ref string name)
         {
