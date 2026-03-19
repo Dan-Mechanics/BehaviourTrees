@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Wait : INode
+    public class Wait : INode, IResettable
     {
         private readonly float delay;
         private bool ticking;
@@ -25,11 +25,17 @@ namespace BehaviourTrees
 
             if (ticking && Time.time >= doneTime)
             {
-                ticking = false;
+                Reset();
                 return Status.Success;
             }
 
             return Status.Running;
+        }
+
+        public void Reset()
+        {
+            ticking = false;
+            doneTime = 0f;
         }
     }
 }

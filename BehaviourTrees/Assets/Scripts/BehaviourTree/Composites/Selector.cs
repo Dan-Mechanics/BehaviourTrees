@@ -1,59 +1,58 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BehaviourTrees
 {
-    public class Selector : INode
+    public class Selector : INode, IResettable, IBlackboardRequired
     {
         private readonly List<INode> nodes = new List<INode>();
-        /// <summary>
-        /// this is a mistake, ti should be local.
-        /// First start with simple patorl and then chase and slowly add shit
-        /// 
-        /// </summary>
-        private int index;
+        private readonly List<IResettable> resettables = new List<IResettable>();
+        private readonly List<IBlackboardRequired> blackboardRequireds = new List<IBlackboardRequired>();
 
         public Selector(params INode[] nodes)
         {
             this.nodes = nodes.ToList();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                Add(nodes[i]);
+            }
         }
 
-        public void Add(INode node) => nodes.Add(node);
-
-        /// <summary>
-        /// Todo: remove reset puilses,
-        /// de sensor kan schirjven to blackboard
-        /// Optional node of always
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Status Process(ref string name)
+        public void Add(INode node)
         {
-            name = GetType().Name;
-            if (index < nodes.Count)
-            {
-                switch (nodes[index].Process(ref name))
-                {
-                    case Status.Running:
-                        return Status.Running;
-                    case Status.Success:
-                        Reset();
-                        return Status.Success;
-                    default:
-                        index++;
-                        return Status.Running;
-                }
-            }
+            nodes.Add(node);
+            if (node is IResettable resettable)
+                resettables.Add(resettable);
 
-            Reset();
-            return Status.Failure;
+            if (node is IBlackboardRequired blackboardRequired)
+                blackboardRequireds.Add(blackboardRequired);
         }
 
         public void Reset()
         {
-            index = 0;
-            nodes.ForEach(x => x.Reset());
+            resettables.ForEach(x => x.Reset());
+        }
+
+        public Status Process(ref string name)
+        {
+            name = GetType().Name;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                switch (nodes[i].Process(ref name))
+                {
+                    case Status.Running:
+                        return Status.Running;
+                    default:
+                        continue;
+                }
+            }
+
+            return Status.Failed;
+        }
+
+        public void AssignBlackboard(Blackboard blackboard)
+        {
+            blackboardRequireds.ForEach(x => x.AssignBlackboard(blackboard));
         }
     }
 }

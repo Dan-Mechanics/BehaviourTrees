@@ -7,10 +7,14 @@ namespace BehaviourTrees
 {
     public class Guard : MonoBehaviour
     {
+        public const string TARGET_NAME = "player";
+        public const string PICKUP_NAME = "pickup";
+
+        private readonly Blackboard blackboard = new Blackboard();
+
         [SerializeField] private NavMeshAgent agent = default;
         [SerializeField] private TMP_Text billboardText = default;
         [SerializeField] private GameObject weaponGraphic = default;
-        [SerializeField] private float resetInterval = default;
         [SerializeField] private float attackTime = default;    
         [SerializeField] private bool hasWeapon = default;
         [SerializeField] private float maxHeldWeaponAngle = default;
@@ -18,8 +22,8 @@ namespace BehaviourTrees
         [Space(25)]
         [SerializeField] private Sense.Settings sensePlayerSettings = default;
         [SerializeField] private Sense.Settings senseWeaponSettings = default;
-        [SerializeField] private MoveTo.Settings urgentMovement = default;
-        [SerializeField] private MoveTo.Settings regularMovement = default;
+        [SerializeField] private MoveSettings urgentMovement = default;
+        [SerializeField] private MoveSettings regularMovement = default;
         [SerializeField] private DealDamage.Settings damageSettings = default;
 
         [Space(25)]
@@ -31,26 +35,30 @@ namespace BehaviourTrees
         public void Setup()
         {
             Sequence patrol = new Sequence();
-            waypoints.ForEach(x => patrol.Add(new MoveTo(x, agent, regularMovement)));
-            patrol.AllowExternalReset(false);
+            waypoints.ForEach(x => patrol.Add(new MoveToFixed(x.position, agent, regularMovement)));
+            patrol.DisallowReset();
+
+            blackboard.SetValue(PICKUP_NAME, weapon);
+            blackboard.SetValue(TARGET_NAME, player.transform);
 
             Sequence getWeapon = new Sequence(
-                new Sense(senseWeaponSettings, transform, weapon),
-                new MoveTo(weapon, agent, urgentMovement),
+                new Sense(senseWeaponSettings, transform, PICKUP_NAME),
+                new MoveTo(PICKUP_NAME, agent, urgentMovement),
                 new Pickup(() => { hasWeapon = true; }, weapon.gameObject));
 
             Sequence chase = new Sequence(
-                new Sense(sensePlayerSettings, transform, player.transform),
-                new AlwaysSucceeds(new Conditional(() => { return !hasWeapon; }, getWeapon)),
-                new MoveTo(player.transform, agent, urgentMovement),
+                new Sense(sensePlayerSettings, transform, TARGET_NAME),
+                new Optional(new Conditional(() => { return !hasWeapon; }, getWeapon)),
+                new MoveTo(TARGET_NAME, agent, urgentMovement),
                 new Attacking(attackTime, weaponGraphic.transform, maxHeldWeaponAngle),
                 new DealDamage(transform, damageSettings),
                 new Invert(new Condition(player.GetAlive)));
 
             Selector selector = new Selector(chase, patrol);
-            root = selector;
+            selector.AssignBlackboard(blackboard);
+            selector.Reset();
 
-            InvokeRepeating(nameof(ResetTree), resetInterval, resetInterval);
+            root = selector;
         }
 
         private void FixedUpdate()
@@ -62,7 +70,6 @@ namespace BehaviourTrees
             weaponGraphic.SetActive(hasWeapon);
         }
 
-        private void ResetTree() => root.Reset();
         public void DisplayText(string str) => billboardText.text = str;
 
         private void OnDrawGizmos()

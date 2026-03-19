@@ -3,24 +3,28 @@ using UnityEngine.AI;
 
 namespace BehaviourTrees
 {
-    public class MoveTo : INode
+    public class MoveTo : INode, IBlackboardRequired
     {
-        private readonly Transform target;
+        private readonly string targetName;
         private readonly NavMeshAgent agent;
-        private readonly Settings settings;
+        private readonly MoveSettings settings;
 
-        public MoveTo(Transform target, NavMeshAgent agent, Settings settings)
+        public MoveTo(string targetName, NavMeshAgent agent, MoveSettings settings)
         {
-            this.target = target;
+            this.targetName = targetName;
             this.agent = agent;
             this.settings = settings;
         }
 
+        public Blackboard Blackboard { get; set; }
+        public void AssignBlackboard(Blackboard blackboard) => Blackboard = blackboard;
+
         public Status Process(ref string name)
         {
-            name = target.name;
+            name = targetName;
+            Transform target = Blackboard.GetValue<Transform>(targetName);
             if (target == null)
-                return Status.Failure;
+                return Status.Failed;
             
             agent.speed = settings.speed;
             agent.SetDestination(target.position);
@@ -30,13 +34,6 @@ namespace BehaviourTrees
                 return Status.Success;
 
             return Status.Running;
-        }
-
-        [System.Serializable]
-        public struct Settings
-        {
-            public float speed;
-            public float minDistance;
         }
     }
 }

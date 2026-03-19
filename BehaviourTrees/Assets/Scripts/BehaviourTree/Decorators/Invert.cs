@@ -14,8 +14,8 @@ namespace BehaviourTrees
             name = GetType().Name;
             return node.Process(ref name) switch
             {
-                Status.Failure => Status.Success,
-                Status.Success => Status.Failure,
+                Status.Failed => Status.Success,
+                Status.Success => Status.Failed,
                 _ => Status.Running,
             };
         }

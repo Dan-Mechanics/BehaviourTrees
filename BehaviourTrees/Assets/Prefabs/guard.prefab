@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1451851967822015417}
   - component: {fileID: 8533271427080393968}
   - component: {fileID: 8323029091503709558}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 2601442647687715227}
   - component: {fileID: 7294824887373882687}
   - component: {fileID: 3099682694732642950}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,6 +166,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3304051701686262831}
+  - {fileID: 2792057247110156926}
   m_Father: {fileID: 4592572861882913877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7294824887373882687
@@ -229,7 +230,7 @@ GameObject:
   - component: {fileID: 4592572861882913877}
   - component: {fileID: 2693701176999614967}
   - component: {fileID: 825094506302403701}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,10 +292,9 @@ MonoBehaviour:
   agent: {fileID: 2693701176999614967}
   billboardText: {fileID: 8323029091503709558}
   weaponGraphic: {fileID: 7966803354270950159}
-  resetInterval: 2
-  attackTime: 0.3
+  attackTime: 1
   hasWeapon: 0
-  maxHeldWeaponAngle: 30
+  maxHeldWeaponAngle: 40
   sensePlayerSettings:
     maxRange: 10
     mask:
@@ -311,16 +311,16 @@ MonoBehaviour:
     color: {r: 0, g: 0, b: 1, a: 0.56078434}
   urgentMovement:
     speed: 8
-    minDistance: 3
+    minDistance: 2
   regularMovement:
     speed: 5
-    minDistance: 3
+    minDistance: 2
   damageSettings:
     radius: 4
     mask:
       serializedVersion: 2
       m_Bits: 1
-    damage: 100
+    damage: 10
   player: {fileID: 0}
   weapon: {fileID: 0}
   waypoints:
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 3304051701686262831}
   - component: {fileID: 1736689699311487957}
   - component: {fileID: 8891219166427756126}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: glasses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,8 +356,8 @@ Transform:
   m_GameObject: {fileID: 6549243880611969315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.396, z: 0.351}
-  m_LocalScale: {x: 0.63761, y: 0.2942124, z: 0.39088044}
+  m_LocalPosition: {x: 0.29179, y: 0.396, z: 0.259}
+  m_LocalScale: {x: 0.28114414, y: 0.2474032, z: 0.32869136}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2601442647687715227}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 5576011603877827930}
   - component: {fileID: 5813281237044351229}
   - component: {fileID: 7751703457486172116}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,6 +495,89 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8068457976245732820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2792057247110156926}
+  - component: {fileID: 6773477316562035274}
+  - component: {fileID: 4481172054311823911}
+  m_Layer: 4
+  m_Name: glasses (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2792057247110156926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068457976245732820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.29179, y: 0.396, z: 0.259}
+  m_LocalScale: {x: 0.28114414, y: 0.2474032, z: 0.32869136}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2601442647687715227}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &6773477316562035274
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068457976245732820}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4481172054311823911
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068457976245732820}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 43db5a6c40d00284ea2b577f0eb94d32, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &9073077105909448479
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +591,7 @@ GameObject:
   - component: {fileID: 7958491397542323683}
   - component: {fileID: 2104915970584677322}
   - component: {fileID: 4885833303180848972}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: billboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

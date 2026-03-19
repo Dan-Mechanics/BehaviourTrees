@@ -2,35 +2,44 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Sense : INode
+    public class Sense : INode, IBlackboardRequired
     {
-        private readonly Settings settings;
-        private readonly Transform self;
-        private readonly Transform target;
+        public Blackboard Blackboard { get; set; }
 
-        public Sense(Settings settings, Transform self, Transform target)
+        private readonly Settings settings;
+        private readonly Transform transform;
+        private readonly string targetKey;
+
+        public Sense(Settings settings, Transform transform, string targetKey)
         {
             this.settings = settings;
-            this.self = self;
-            this.target = target;
+            this.targetKey = targetKey;
+            this.transform = transform;
+        }
+
+        public void AssignBlackboard(Blackboard blackboard)
+        {
+            Blackboard = blackboard;
+            Debug.Log("BLACboard assinged" + targetKey);
         }
 
         public Status Process(ref string name)
         {
             name = GetType().Name;
+            Transform target = Blackboard.GetValue<Transform>(targetKey);
             if (target == null)
-                return Status.Failure;
+                return Status.Failed;
 
-            Vector3 dir = target.position - self.position;
-            bool hasFound = Physics.Raycast(self.position, dir.normalized, out RaycastHit hit, settings.maxRange,
+            Vector3 dir = target.position - transform.position;
+            bool hasFound = Physics.Raycast(transform.position, dir.normalized, out RaycastHit hit, settings.maxRange,
                 settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
-                Vector3.Angle(dir, self.forward) <= settings.maxViewingAngle;
+                Vector3.Angle(dir, transform.forward) <= settings.maxViewingAngle;
 
            // bool hasFound = Vector3.Distance(target.position, self.position) < settings.maxRange;
             if (hasFound)
                 return Status.Success;
 
-            return Status.Failure;
+            return Status.Failed;
         }
 
         [System.Serializable]

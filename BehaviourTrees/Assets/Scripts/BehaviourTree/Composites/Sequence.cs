@@ -3,50 +3,69 @@ using System.Linq;
 
 namespace BehaviourTrees
 {
-    public class Sequence : INode
+    public class Sequence : INode, IBlackboardRequired, IResettable
     {
         private readonly List<INode> nodes = new List<INode>();
-        private bool allowExternalReset;
+        private readonly List<IResettable> resettables = new List<IResettable>();
+        private readonly List<IBlackboardRequired> blackboardRequireds = new List<IBlackboardRequired>();
+
         private int index;
+        private bool allowReset;
 
         public Sequence(params INode[] nodes)
         {
             this.nodes = nodes.ToList();
-            AllowExternalReset(true);
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                Add(nodes[i]);
+            }
         }
 
-        public void Add(INode node) => nodes.Add(node);
-        public void AllowExternalReset(bool value) => allowExternalReset = value;
+        public void Add(INode node)
+        {
+            nodes.Add(node);
+            if (node is IResettable resettable)
+                resettables.Add(resettable);
+
+            if (node is IBlackboardRequired blackboardRequired)
+                blackboardRequireds.Add(blackboardRequired);
+        }
+
+        public void DisallowReset() => allowReset = true;
+
+        public void AssignBlackboard(Blackboard blackboard)
+        {
+            blackboardRequireds.ForEach(x => x.AssignBlackboard(blackboard));
+        }
 
         public Status Process(ref string name)
         {
             name = GetType().FullName;
-            if (index < nodes.Count)
+            for (; index < nodes.Count; index++)
             {
                 switch (nodes[index].Process(ref name))
                 {
                     case Status.Running:
                         return Status.Running;
-                    case Status.Failure:
+                    case Status.Failed:
                         index = 0;
-                        return Status.Failure;
-                    default:
-                        index++;
-                        return index >= nodes.Count ? Status.Success : Status.Running;
+                        return Status.Failed;
+                    case Status.Success:
+                        continue;
                 }
             }
 
             index = 0;
-            Reset();
             return Status.Success;
         }
 
         public void Reset()
         {
-           if (allowExternalReset)
-                index = 0;
+            if (allowReset)
+                return;
 
-            nodes.ForEach(x => x.Reset());
+            resettables.ForEach(x => x.Reset());
+            index = 0;
         }
     }
 }

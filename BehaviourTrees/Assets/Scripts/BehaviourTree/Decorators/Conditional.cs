@@ -17,7 +17,7 @@ namespace BehaviourTrees
             if (predicate())
                 return Status.Success;
 
-            return Status.Failure;
+            return Status.Failed;
         }
     }
 }

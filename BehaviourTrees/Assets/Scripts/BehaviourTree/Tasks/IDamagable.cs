@@ -1,6 +1,6 @@
 ﻿namespace BehaviourTrees
 {
-    internal interface IDamagable
+    public interface IDamagable
     {
         void Damage(float damage);
     }

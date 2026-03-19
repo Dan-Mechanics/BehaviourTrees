@@ -2,14 +2,12 @@ using System;
 
 namespace BehaviourTrees
 {
-    public class Conditional : INode, IBlackboardRequired
+    public class Optional : INode, IBlackboardRequired
     {
-        private readonly Func<bool> predicate;
         private readonly INode node;
 
-        public Conditional(Func<bool> predicate, INode node)
+        public Optional(INode node)
         {
-            this.predicate = predicate;
             this.node = node;
         }
 
@@ -21,11 +19,11 @@ namespace BehaviourTrees
 
         public Status Process(ref string name)
         {
-            name = GetType().Name;
-            if (predicate())
-                return node.Process(ref name);
+            Status status = node.Process(ref name);
+            if (status == Status.Failed)
+                return Status.Success;
 
-            return Status.Failed;
+            return status;
         }
     }
 }

@@ -14,8 +14,6 @@ namespace BehaviourTrees
         private IMoveInput moveInput;
         private float velocity;
 
-        public void SetMoveInput(IMoveInput moveInput) => this.moveInput = moveInput;
-
         public Vector3 GetMovement()
         {
             Vector3 movement = (Input.GetAxisRaw("Horizontal") * transform.right) + (Input.GetAxisRaw("Vertical") * transform.forward);
@@ -23,6 +21,7 @@ namespace BehaviourTrees
             return movement;
         }
 
+        public void SetMoveInput(IMoveInput moveInput) => this.moveInput = moveInput;
         private void Update() => Move(Time.deltaTime);
 
         private void Move(float interval)
