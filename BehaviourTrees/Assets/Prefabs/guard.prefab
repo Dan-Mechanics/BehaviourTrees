@@ -294,13 +294,13 @@ MonoBehaviour:
   billboardText: {fileID: 8323029091503709558}
   weaponGraphic: {fileID: 7966803354270950159}
   weaponSwingRotation: {x: 33.64, y: 0, z: 0}
-  senseSettings:
-    maxRange: 6
+  sensePlayer:
+    maxRange: 12
     mask:
       serializedVersion: 2
       m_Bits: 1
-    maxViewingAngle: 180
-  senseWeaponSettings:
+    maxViewingAngle: 90
+  senseWeapon:
     maxRange: 12
     mask:
       serializedVersion: 2
@@ -308,15 +308,15 @@ MonoBehaviour:
     maxViewingAngle: 1000
   movement:
     speed: 6
-    minDistance: 2
+    minDistance: 1.5
   combatMovement:
     speed: 8
     minDistance: 2
-  baseDamage: 1
-  armedDamage: 2
+  baseDamage: 0.5
+  armedDamage: 1
   waypointsParent: {fileID: 0}
-  debugGraphicHeight: 0.2
   rangeGraphic: {fileID: 6627728404330575600}
+  debugGraphicHeight: 0.2
 --- !u!1 &6549243880611969315
 GameObject:
   m_ObjectHideFlags: 0

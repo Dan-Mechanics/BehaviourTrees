@@ -9,6 +9,7 @@ namespace BehaviourTrees
         public Blackboard Blackboard { get; set; }
 
         public const string PLAYER = "player";
+        public const string GETTING_WEAPON = "getting_weapon";
         public const string PICKUP = "pickup";
         public const string WEAPON_GRAPHIC = "weapon_graphic";
         public const string HAS_WEAPON = "has_weapon";
@@ -18,8 +19,8 @@ namespace BehaviourTrees
         [SerializeField] private TMP_Text billboardText = default;
         [SerializeField] private GameObject weaponGraphic = default;
         [SerializeField] private Vector3 weaponSwingRotation = default;
-        [SerializeField] private SenseSettings senseSettings = default;
-        [SerializeField] private SenseSettings senseWeaponSettings = default;
+        [SerializeField] private SenseSettings sensePlayer = default;
+        [SerializeField] private SenseSettings senseWeapon = default;
         [SerializeField] private MoveSettings movement = default;
         [SerializeField] private MoveSettings combatMovement = default;
         [SerializeField] private float baseDamage = default;
@@ -35,9 +36,7 @@ namespace BehaviourTrees
         {
             Blackboard.SetValue(WEAPON_GRAPHIC, weaponGraphic.transform);
             Blackboard.SetValue(DAMAGE, baseDamage);
-            rangeGraphic.localScale = new Vector3(senseSettings.maxRange, debugGraphicHeight * 0.5f, senseSettings.maxRange) * 2f;
-
-            // ===
+            rangeGraphic.localScale = new Vector3(sensePlayer.maxRange, debugGraphicHeight * 0.5f, sensePlayer.maxRange) * 2f;
 
             Sequence walkOnPath = new Sequence();
             for (int i = 0; i < waypointsParent.childCount; i++)
@@ -45,29 +44,30 @@ namespace BehaviourTrees
                 walkOnPath.Add(new MoveToFixed(waypointsParent.GetChild(i).position, agent, movement));
             }
 
-            // FOR ME, PATROL MEANS WALKING ON A PATH WHILE ALSO LOOKING FOR PLAYERS.
-            Selector patrol = new Selector(new Sense<IDamagable>(senseSettings, transform, PLAYER), new Perpetual(walkOnPath));
-
-            // ===
+            Selector patrol = new Selector(
+                new Sense<IDamagable>(sensePlayer, transform, PLAYER),
+                new Perpetual(walkOnPath));
 
             Sequence getWeapon = new Sequence(
-                new Sense<ICollectable>(senseWeaponSettings, transform, PICKUP),
+                new Sense<ICollectable>(senseWeapon, transform, PICKUP),
+                new SetValue<bool>(GETTING_WEAPON, true),
                 new MoveTo(PICKUP, agent, combatMovement),
-                new Equip(PICKUP, HAS_WEAPON, DAMAGE, armedDamage));
+                new Equip(PICKUP, HAS_WEAPON, DAMAGE, armedDamage),
+                new SetValue<bool>(GETTING_WEAPON, false));
 
             Sequence chase = new Sequence(
                 new MoveTo(PLAYER, agent, combatMovement),
-                new Parallel(new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation), new Attack(DAMAGE, PLAYER)));
-
-            // ===
+                new Parallel(new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation), new Attack(DAMAGE, PLAYER)),
+                new SetValue<bool>(GETTING_WEAPON, false));
 
             Selector selector = new Selector(
-                new Invert(patrol),
+                new Conditional(GETTING_WEAPON, new Invert(patrol), false),
                 new Invert(new Optional(new Conditional(HAS_WEAPON, getWeapon, false))),
                 chase);
 
             selector.AssignBlackboard(Blackboard);
             selector.Reset();
+
             root = selector;
         }
 

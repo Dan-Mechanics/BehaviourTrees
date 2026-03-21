@@ -125,7 +125,7 @@ Camera:
   m_GameObject: {fileID: 4030755029230733540}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -285,5 +285,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diedText: {fileID: 0}
   fade: {fileID: 0}
-  dmgToFadeConversion: 0.025
+  dmgToFadeConversion: 0.05
   health: 100
