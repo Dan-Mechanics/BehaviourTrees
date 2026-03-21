@@ -5,12 +5,13 @@ namespace BehaviourTrees
 {
     public class Sequence : INode, IBlackboardRequired, IResettable
     {
+        public Blackboard Blackboard { get; set; }
         private readonly List<INode> nodes = new List<INode>();
         private readonly List<IResettable> resettables = new List<IResettable>();
         private readonly List<IBlackboardRequired> blackboardRequireds = new List<IBlackboardRequired>();
 
+        private bool allowReset = true;
         private int index;
-        private bool allowReset;
 
         public Sequence(params INode[] nodes)
         {
@@ -31,10 +32,11 @@ namespace BehaviourTrees
                 blackboardRequireds.Add(blackboardRequired);
         }
 
-        public void DisallowReset() => allowReset = true;
+        public void DisallowReset() => allowReset = false;
 
         public void AssignBlackboard(Blackboard blackboard)
         {
+            Blackboard = blackboard;
             blackboardRequireds.ForEach(x => x.AssignBlackboard(blackboard));
         }
 
@@ -61,7 +63,7 @@ namespace BehaviourTrees
 
         public void Reset()
         {
-            if (allowReset)
+            if (!allowReset)
                 return;
 
             resettables.ForEach(x => x.Reset());

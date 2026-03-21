@@ -1,9 +1,8 @@
-using System;
-
 namespace BehaviourTrees
 {
     public class Optional : INode, IBlackboardRequired
     {
+        public Blackboard Blackboard { get; set; }
         private readonly INode node;
 
         public Optional(INode node)
@@ -13,6 +12,7 @@ namespace BehaviourTrees
 
         public void AssignBlackboard(Blackboard blackboard)
         {
+            Blackboard = blackboard;
             if (node is IBlackboardRequired blackboardRequired)
                 blackboardRequired.AssignBlackboard(blackboard);
         }

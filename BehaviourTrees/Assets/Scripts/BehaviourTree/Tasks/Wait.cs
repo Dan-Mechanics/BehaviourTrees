@@ -5,8 +5,7 @@ namespace BehaviourTrees
     public class Wait : INode, IResettable
     {
         private readonly float delay;
-        private bool ticking;
-        private float doneTime;
+        private float timer;
 
         public Wait(float delay)
         {
@@ -16,26 +15,18 @@ namespace BehaviourTrees
         public Status Process(ref string name)
         {
             name = GetType().Name;
-            if (!ticking)
-            {
-                doneTime = Time.time + delay;
-                ticking = true;
-                return Status.Running;
-            }
-
-            if (ticking && Time.time >= doneTime)
+            if (timer >= delay)
             {
                 Reset();
                 return Status.Success;
             }
-
-            return Status.Running;
+            else
+            {
+                timer += Time.fixedDeltaTime;
+                return Status.Running;
+            }
         }
 
-        public void Reset()
-        {
-            ticking = false;
-            doneTime = 0f;
-        }
+        public void Reset() => timer = 0f;
     }
 }

@@ -1,2 +1,4 @@
+TODO: ALWAYS DELETE WRITINGS AT THE END OF THE SHIT.
+
 make it so that the guard loses the player when out of range,
 then, make it so that it works with SOLID blackboard meme

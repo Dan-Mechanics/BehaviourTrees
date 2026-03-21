@@ -2,15 +2,13 @@ using System;
 
 namespace BehaviourTrees
 {
-    public class Conditional : INode, IBlackboardRequired
+    public class Perpetual : INode, IBlackboardRequired
     {
         public Blackboard Blackboard { get; set; }
-        private readonly string inputKey;
         private readonly INode node;
 
-        public Conditional(string inputKey, INode node)
+        public Perpetual(INode node)
         {
-            this.inputKey = inputKey;
             this.node = node;
         }
 
@@ -23,11 +21,8 @@ namespace BehaviourTrees
 
         public Status Process(ref string name)
         {
-            name = GetType().Name;
-            if (Blackboard.GetValue<bool>(inputKey))
-                return node.Process(ref name);
-
-            return Status.Failed;
+            node.Process(ref name);
+            return Status.Running;
         }
     }
 }

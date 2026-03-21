@@ -2,53 +2,52 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    public class Sense : INode, IBlackboardRequired
+    public class Sense<T> : INode, IBlackboardRequired
     {
         public Blackboard Blackboard { get; set; }
 
-        private readonly Settings settings;
+        private readonly SenseSettings settings;
         private readonly Transform transform;
-        private readonly string targetKey;
+        private readonly string outputKey;
 
-        public Sense(Settings settings, Transform transform, string targetKey)
+        public Sense(SenseSettings settings, Transform transform, string outputKey)
         {
             this.settings = settings;
-            this.targetKey = targetKey;
+            this.outputKey = outputKey;
             this.transform = transform;
         }
 
-        public void AssignBlackboard(Blackboard blackboard)
-        {
-            Blackboard = blackboard;
-            Debug.Log("BLACboard assinged" + targetKey);
-        }
+        public void AssignBlackboard(Blackboard blackboard) => Blackboard = blackboard;
 
         public Status Process(ref string name)
         {
             name = GetType().Name;
-            Transform target = Blackboard.GetValue<Transform>(targetKey);
-            if (target == null)
-                return Status.Failed;
 
-            Vector3 dir = target.position - transform.position;
-            bool hasFound = Physics.Raycast(transform.position, dir.normalized, out RaycastHit hit, settings.maxRange,
-                settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
-                Vector3.Angle(dir, transform.forward) <= settings.maxViewingAngle;
+            // THIS STEP IS REALLY IMPORTANT.
+            Blackboard.SetValue<Transform>(outputKey, null);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, settings.maxRange, settings.mask, QueryTriggerInteraction.Ignore);
+            foreach (Collider coll in colliders)
+            {
+                if (coll.GetComponent<T>() == null)
+                    continue;
 
-           // bool hasFound = Vector3.Distance(target.position, self.position) < settings.maxRange;
-            if (hasFound)
-                return Status.Success;
+                Transform target = coll.transform;
+                if (CheckLineOfSight(target))
+                {
+                    Blackboard.SetValue<Transform>(outputKey, target);
+                    return Status.Success;
+                }
+            }
 
             return Status.Failed;
         }
 
-        [System.Serializable]
-        public struct Settings
+        private bool CheckLineOfSight(Transform target)
         {
-            public float maxRange;
-            public LayerMask mask;
-            public float maxViewingAngle;
-            public Color color;
+            Vector3 dir = target.position - transform.position;
+            return Physics.Raycast(transform.position, dir.normalized, out RaycastHit hit, settings.maxRange,
+                settings.mask, QueryTriggerInteraction.Ignore) && hit.transform == target &&
+                Vector3.Angle(dir, transform.forward) <= settings.maxViewingAngle;
         }
     }
 }

@@ -5,57 +5,62 @@ using TMPro;
 
 namespace BehaviourTrees
 {
-    public class Guard : MonoBehaviour
+    public class Guard : MonoBehaviour, IBlackboardRequired
     {
-        public const string TARGET_NAME = "player";
-        public const string PICKUP_NAME = "pickup";
-
-        private readonly Blackboard blackboard = new Blackboard();
+        public Blackboard Blackboard { get; set; }
+        public const string PLAYER = "player";
+        public const string PICKUP = "pickup";
+        public const string WEAPON_GRAPHIC = "weapon_graphic";
+        public const string HAS_WEAPON = "has_weapon";
+        public const string DAMAGE = "damage";
 
         [SerializeField] private NavMeshAgent agent = default;
         [SerializeField] private TMP_Text billboardText = default;
         [SerializeField] private GameObject weaponGraphic = default;
-        [SerializeField] private float attackTime = default;    
-        [SerializeField] private bool hasWeapon = default;
-        [SerializeField] private float maxHeldWeaponAngle = default;
+        [SerializeField] private Vector3 weaponSwingRotation = default;
 
         [Space(25)]
-        [SerializeField] private Sense.Settings sensePlayerSettings = default;
-        [SerializeField] private Sense.Settings senseWeaponSettings = default;
-        [SerializeField] private MoveSettings urgentMovement = default;
-        [SerializeField] private MoveSettings regularMovement = default;
-        [SerializeField] private DealDamage.Settings damageSettings = default;
+        [SerializeField] private SenseSettings senseSettings = default;
+        [SerializeField] private MoveSettings movement = default;
+        [SerializeField] private MoveSettings combatMovement = default;
+        [SerializeField] private float baseDamage = default;
+        [SerializeField] private float swordDamage = default;
 
         [Space(25)]
-        [SerializeField] private Player player = default;
-        [SerializeField] private Transform weapon = default;
+        [SerializeField] private Transform player = default;
         [SerializeField] private List<Transform> waypoints = default;
         private INode root;
 
         public void Setup()
         {
+            if (Blackboard == null)
+                throw new System.Exception();
+            
+            Blackboard.SetValue(WEAPON_GRAPHIC, weaponGraphic);
+            Blackboard.SetValue(PLAYER, player);
+            Blackboard.SetValue(DAMAGE, baseDamage);
+
+            // ================
+
             Sequence patrol = new Sequence();
-            waypoints.ForEach(x => patrol.Add(new MoveToFixed(x.position, agent, regularMovement)));
+            waypoints.ForEach(x => patrol.Add(new MoveToFixed(x.position, agent, movement)));
             patrol.DisallowReset();
 
-            blackboard.SetValue(PICKUP_NAME, weapon);
-            blackboard.SetValue(TARGET_NAME, player.transform);
-
             Sequence getWeapon = new Sequence(
-                new Sense(senseWeaponSettings, transform, PICKUP_NAME),
-                new MoveTo(PICKUP_NAME, agent, urgentMovement),
-                new Pickup(() => { hasWeapon = true; }, weapon.gameObject));
+                new Sense<ICollectable>(senseSettings, transform, PICKUP),
+                new MoveTo(PICKUP, agent, combatMovement),
+                new Equip(HAS_WEAPON, PICKUP, DAMAGE, swordDamage));
 
             Sequence chase = new Sequence(
-                new Sense(sensePlayerSettings, transform, TARGET_NAME),
-                new Optional(new Conditional(() => { return !hasWeapon; }, getWeapon)),
-                new MoveTo(TARGET_NAME, agent, urgentMovement),
-                new Attacking(attackTime, weaponGraphic.transform, maxHeldWeaponAngle),
-                new DealDamage(transform, damageSettings),
-                new Invert(new Condition(player.GetAlive)));
+                new Sense<IDamagable>(senseSettings, transform, PLAYER),
+                new Optional(new Conditional(HAS_WEAPON, getWeapon)),
+                new MoveTo(PLAYER, agent, combatMovement),
+                new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation),
+                new Attack(DAMAGE, PLAYER),
+                new Invert(new Condition(Player.GET_ALIVE)));
 
             Selector selector = new Selector(chase, patrol);
-            selector.AssignBlackboard(blackboard);
+            selector.AssignBlackboard(Blackboard);
             selector.Reset();
 
             root = selector;
@@ -67,18 +72,14 @@ namespace BehaviourTrees
             root.Process(ref currentNode);
             DisplayText(currentNode);
 
-            weaponGraphic.SetActive(hasWeapon);
+            weaponGraphic.SetActive(Blackboard.GetValue<bool>(HAS_WEAPON));
         }
 
         public void DisplayText(string str) => billboardText.text = str;
+        public void AssignBlackboard(Blackboard blackboard) => Blackboard = blackboard;
+        private void OnDrawGizmos() => ShowSettings(senseSettings);
 
-        private void OnDrawGizmos()
-        {
-            ShowSettings(sensePlayerSettings);
-            // ShowSettings(senseWeaponSettings);
-        }
-
-        private void ShowSettings(Sense.Settings settings)
+        private void ShowSettings(SenseSettings settings)
         {
             Gizmos.color = settings.color;
             Gizmos.DrawSphere(transform.position, settings.maxRange);

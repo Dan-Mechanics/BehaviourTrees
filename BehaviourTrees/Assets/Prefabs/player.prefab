@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab6c76b101eba44a81c178ecb907001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diedText: {fileID: 0}
   fade: {fileID: 0}
-  dmgToFadeConversion: 0.05
+  dmgToFadeConversion: 0.01
   health: 100

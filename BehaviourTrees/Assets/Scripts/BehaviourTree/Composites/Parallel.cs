@@ -5,6 +5,7 @@ namespace BehaviourTrees
 {
     public class Parallel : INode, IBlackboardRequired, IResettable
     {
+        public Blackboard Blackboard { get; set; }
         private readonly List<INode> nodes = new List<INode>();
         private readonly List<IResettable> resettables = new List<IResettable>();
         private readonly List<IBlackboardRequired> blackboardRequireds = new List<IBlackboardRequired>();
@@ -44,6 +45,7 @@ namespace BehaviourTrees
 
         public void AssignBlackboard(Blackboard blackboard)
         {
+            Blackboard = blackboard;
             blackboardRequireds.ForEach(x => x.AssignBlackboard(blackboard));
         }
 

@@ -5,24 +5,25 @@ namespace BehaviourTrees
 {
     public class MoveTo : INode, IBlackboardRequired
     {
-        private readonly string targetName;
+        public Blackboard Blackboard { get; set; }
+
+        private readonly string inputKey;
         private readonly NavMeshAgent agent;
         private readonly MoveSettings settings;
 
-        public MoveTo(string targetName, NavMeshAgent agent, MoveSettings settings)
+        public MoveTo(string inputKey, NavMeshAgent agent, MoveSettings settings)
         {
-            this.targetName = targetName;
+            this.inputKey = inputKey;
             this.agent = agent;
             this.settings = settings;
         }
 
-        public Blackboard Blackboard { get; set; }
         public void AssignBlackboard(Blackboard blackboard) => Blackboard = blackboard;
 
         public Status Process(ref string name)
         {
-            name = targetName;
-            Transform target = Blackboard.GetValue<Transform>(targetName);
+            name = inputKey;
+            Transform target = Blackboard.GetValue<Transform>(inputKey);
             if (target == null)
                 return Status.Failed;
             

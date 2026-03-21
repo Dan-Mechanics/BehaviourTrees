@@ -5,6 +5,7 @@ namespace BehaviourTrees
 {
     public class Selector : INode, IResettable, IBlackboardRequired
     {
+        public Blackboard Blackboard { get; set; }
         private readonly List<INode> nodes = new List<INode>();
         private readonly List<IResettable> resettables = new List<IResettable>();
         private readonly List<IBlackboardRequired> blackboardRequireds = new List<IBlackboardRequired>();
@@ -43,6 +44,7 @@ namespace BehaviourTrees
                     case Status.Running:
                         return Status.Running;
                     default:
+                        Reset();
                         continue;
                 }
             }
