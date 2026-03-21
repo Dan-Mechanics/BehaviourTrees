@@ -12,7 +12,10 @@ namespace BehaviourTrees
             this.inputKey = inputKey;
         }
 
-        public void AssignBlackboard(Blackboard blackboard) => Blackboard = blackboard;
+        public void AssignBlackboard(Blackboard blackboard)
+        {
+            Blackboard = blackboard;
+        }
 
         public Status Process(ref string name)
         {

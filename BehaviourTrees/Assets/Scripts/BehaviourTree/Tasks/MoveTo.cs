@@ -27,6 +27,7 @@ namespace BehaviourTrees
             if (target == null)
                 return Status.Failed;
             
+            name = target.name;
             agent.speed = settings.speed;
             agent.SetDestination(target.position);
 

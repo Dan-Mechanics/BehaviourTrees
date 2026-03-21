@@ -26,9 +26,9 @@ namespace BehaviourTrees
         private void Start()
         {
             sceneBoilerplate.Setup();
-            guard.Setup();
-            player.AssignBlackboard(blackboard);
             guard.AssignBlackboard(blackboard);
+            player.AssignBlackboard(blackboard);
+            guard.Setup();
 
             firstPersonLook.SetupCursor();
             firstPersonLook.SetLookInput(sensitivityMouse);

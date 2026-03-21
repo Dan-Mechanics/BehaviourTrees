@@ -24,12 +24,12 @@ namespace BehaviourTrees
             name = GetType().Name;
             Transform graphic = Blackboard.GetValue<Transform>(inputKey);
             if (graphic == null)
-                return Status.Running;
+                return Status.Success;
 
             graphic.localEulerAngles = Random.value > 0.5f ? eulerA : eulerB;
 
             // THE ANIMATION SHOULDN'T LEAD THE LOGIC.
-            return Status.Running;
+            return Status.Success;
         }
     }
 }

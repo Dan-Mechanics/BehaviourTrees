@@ -22,8 +22,11 @@ namespace BehaviourTrees
 
         private void FixedUpdate()
         {
-            Blackboard.SetValue(GET_ALIVE, health > 0f);
-            diedText.SetActive(Blackboard.GetValue<bool>(GET_ALIVE));
+            bool alive = health > 0f;
+            Blackboard.SetValue(GET_ALIVE, alive);
+            diedText.SetActive(!alive);
+            if (!alive)
+                Destroy(this);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using TMPro;
 
 namespace BehaviourTrees
 {
@@ -18,27 +18,17 @@ namespace BehaviourTrees
         [SerializeField] private TMP_Text billboardText = default;
         [SerializeField] private GameObject weaponGraphic = default;
         [SerializeField] private Vector3 weaponSwingRotation = default;
-
-        [Space(25)]
         [SerializeField] private SenseSettings senseSettings = default;
         [SerializeField] private MoveSettings movement = default;
         [SerializeField] private MoveSettings combatMovement = default;
         [SerializeField] private float baseDamage = default;
         [SerializeField] private float swordDamage = default;
-
-        [Space(25)]
-        [SerializeField] private Transform player = default;
         [SerializeField] private List<Transform> waypoints = default;
         private INode root;
 
         public void Setup()
         {
-            if (Blackboard == null)
-                throw new System.Exception();
-            
-            Blackboard.SetValue(WEAPON_GRAPHIC, weaponGraphic);
-            Blackboard.SetValue(PLAYER, player);
-            Blackboard.SetValue(DAMAGE, baseDamage);
+            SetupBlackboard();
 
             // ================
 
@@ -46,14 +36,16 @@ namespace BehaviourTrees
             waypoints.ForEach(x => patrol.Add(new MoveToFixed(x.position, agent, movement)));
             patrol.DisallowReset();
 
+            // TODO: MAKE IT SO THAT THE SENSE BEHAVIOUR IS IN PATROL BECAUSE THAT MAKES SENSE.
+
             Sequence getWeapon = new Sequence(
                 new Sense<ICollectable>(senseSettings, transform, PICKUP),
                 new MoveTo(PICKUP, agent, combatMovement),
-                new Equip(HAS_WEAPON, PICKUP, DAMAGE, swordDamage));
+                new Equip(PICKUP, HAS_WEAPON, DAMAGE, swordDamage));
 
             Sequence chase = new Sequence(
                 new Sense<IDamagable>(senseSettings, transform, PLAYER),
-                new Optional(new Conditional(HAS_WEAPON, getWeapon)),
+                new Optional(new Conditional(HAS_WEAPON, getWeapon, true)),
                 new MoveTo(PLAYER, agent, combatMovement),
                 new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation),
                 new Attack(DAMAGE, PLAYER),
@@ -64,6 +56,15 @@ namespace BehaviourTrees
             selector.Reset();
 
             root = selector;
+        }
+
+        private void SetupBlackboard()
+        {
+            if (Blackboard == null)
+                throw new System.Exception();
+
+            Blackboard.SetValue(WEAPON_GRAPHIC, weaponGraphic.transform);
+            Blackboard.SetValue(DAMAGE, baseDamage);
         }
 
         private void FixedUpdate()

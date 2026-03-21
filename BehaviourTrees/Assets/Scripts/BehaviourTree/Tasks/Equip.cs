@@ -21,9 +21,17 @@ namespace BehaviourTrees
 
         public Status Process(ref string name)
         {
+            // WE ALREADY HAVE THE SWORD.
+            if (Blackboard.GetValue<bool>(hasWeaponKey))
+                return Status.Success;
+
+            Debug.Log(nameof(Equip));
             Blackboard.SetValue(hasWeaponKey, true);
             Blackboard.SetValue(damageKey, newDamage);
-            Object.Destroy(Blackboard.GetValue<Transform>(pickupKey).gameObject);
+            Transform pickup = Blackboard.GetValue<Transform>(pickupKey);
+            if (pickup && pickup.TryGetComponent(out ICollectable collectable))
+                collectable.Collect();
+
             return Status.Success;
         }
 

@@ -26,7 +26,7 @@ namespace BehaviourTrees
                 return Status.Failed;
 
             damagable.Damage(Blackboard.GetValue<float>(damageKey));
-            return Status.Running;
+            return Status.Success;
         }
     }
 }
