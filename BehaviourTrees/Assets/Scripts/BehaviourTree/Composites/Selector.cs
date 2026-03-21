@@ -29,10 +29,7 @@ namespace BehaviourTrees
                 blackboardRequireds.Add(blackboardRequired);
         }
 
-        public void Reset()
-        {
-            resettables.ForEach(x => x.Reset());
-        }
+        public void Reset() => resettables.ForEach(x => x.Reset());
 
         public Status Process(ref string name)
         {
@@ -43,12 +40,15 @@ namespace BehaviourTrees
                 {
                     case Status.Running:
                         return Status.Running;
-                    default:
+                    case Status.Success:
                         Reset();
+                        return Status.Success;
+                    case Status.Failed:
                         continue;
                 }
             }
 
+            Reset();
             return Status.Failed;
         }
 

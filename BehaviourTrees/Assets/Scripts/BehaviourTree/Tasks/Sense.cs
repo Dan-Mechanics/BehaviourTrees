@@ -21,7 +21,7 @@ namespace BehaviourTrees
 
         public Status Process(ref string name)
         {
-            name = GetType().Name;
+            name = GetType().Name + outputKey;
 
             // THIS STEP IS REALLY IMPORTANT.
             Blackboard.SetValue<Transform>(outputKey, null);

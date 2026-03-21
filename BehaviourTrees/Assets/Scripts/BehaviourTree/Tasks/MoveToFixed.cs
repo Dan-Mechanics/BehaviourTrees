@@ -18,7 +18,7 @@ namespace BehaviourTrees
 
         public Status Process(ref string name)
         {
-            name = GetType().Name;
+            name = $"move to {position}";
             agent.speed = moveSettings.speed;
             agent.SetDestination(position);
 

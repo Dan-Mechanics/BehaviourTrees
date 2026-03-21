@@ -8,6 +8,5 @@ namespace BehaviourTrees
         public float maxRange;
         public LayerMask mask;
         public float maxViewingAngle;
-        public Color color;
     }
 }

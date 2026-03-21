@@ -285,5 +285,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diedText: {fileID: 0}
   fade: {fileID: 0}
-  dmgToFadeConversion: 0.01
+  dmgToFadeConversion: 0.025
   health: 100
