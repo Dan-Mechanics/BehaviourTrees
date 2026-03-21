@@ -61,7 +61,11 @@ namespace BehaviourTrees
 
             // ===
 
-            Selector selector = new Selector(new Invert(patrol), new Invert(new Optional(new Conditional(HAS_WEAPON, getWeapon, false))), chase);
+            Selector selector = new Selector(
+                new Invert(patrol),
+                new Invert(new Optional(new Conditional(HAS_WEAPON, getWeapon, false))),
+                chase);
+
             selector.AssignBlackboard(Blackboard);
             selector.Reset();
             root = selector;
