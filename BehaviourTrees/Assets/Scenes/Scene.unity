@@ -1548,7 +1548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
       propertyPath: senseWeaponSettings.maxRange
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 825094506302403701, guid: ed389114203c4d146b704c3aab4d7df7, type: 3}
       propertyPath: senseSettings.maxViewingAngle
@@ -1779,7 +1779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4363223805637485631, guid: 342a156abcda76d48878ecaa783255d9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.2
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4363223805637485631, guid: 342a156abcda76d48878ecaa783255d9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1787,7 +1787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4363223805637485631, guid: 342a156abcda76d48878ecaa783255d9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.5
+      value: 17.3
       objectReference: {fileID: 0}
     - target: {fileID: 4363223805637485631, guid: 342a156abcda76d48878ecaa783255d9, type: 3}
       propertyPath: m_LocalRotation.w

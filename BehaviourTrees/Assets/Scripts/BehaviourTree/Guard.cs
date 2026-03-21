@@ -10,7 +10,6 @@ namespace BehaviourTrees
 
         public const string PLAYER = "player";
         public const string PICKUP = "pickup";
-        public const string IN_COMBAT = "in_combat";
         public const string WEAPON_GRAPHIC = "weapon_graphic";
         public const string HAS_WEAPON = "has_weapon";
         public const string DAMAGE = "damage";
@@ -57,17 +56,12 @@ namespace BehaviourTrees
                 new Equip(PICKUP, HAS_WEAPON, DAMAGE, armedDamage));
 
             Sequence chase = new Sequence(
-                new Condition(Player.GET_ALIVE), // DOESN'T NEED TO BE HERE, BUT MAKES SENSE.
-                new SetValue<bool>(IN_COMBAT, true),
-                new Optional(new Conditional(HAS_WEAPON, getWeapon, true)),
                 new MoveTo(PLAYER, agent, combatMovement),
-                new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation),
-                new Attack(DAMAGE, PLAYER),
-                new SetValue<bool>(IN_COMBAT, false));
+                new Parallel(new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation), new Attack(DAMAGE, PLAYER)));
 
             // ===
 
-            Selector selector = new Selector(new Invert(patrol), chase);
+            Selector selector = new Selector(new Invert(patrol), new Invert(new Optional(new Conditional(HAS_WEAPON, getWeapon, false))), chase);
             selector.AssignBlackboard(Blackboard);
             selector.Reset();
             root = selector;
