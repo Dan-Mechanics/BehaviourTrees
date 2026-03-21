@@ -1,9 +1,0 @@
-ok so i bascially fixed the behaviour tree in terms of minimum viability,
-now what i think i should do is make the blackboard usage better and also
-make sure the guard doesnt forget the player when he goes for the weapon, which is interesting
-
-
-TODO: ALWAYS DELETE WRITINGS AT THE END OF THE SHIT.
-
-make it so that the guard loses the player when out of range,
-then, make it so that it works with SOLID blackboard meme
