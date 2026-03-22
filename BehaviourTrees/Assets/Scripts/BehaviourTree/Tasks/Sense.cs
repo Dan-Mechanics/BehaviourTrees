@@ -39,7 +39,7 @@ namespace BehaviourTrees
                 }
             }
 
-            return Status.Failed;
+            return Status.Failure;
         }
 
         private bool CheckLineOfSight(Transform target)

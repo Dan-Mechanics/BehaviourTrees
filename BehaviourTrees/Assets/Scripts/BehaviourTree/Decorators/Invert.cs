@@ -21,11 +21,11 @@ namespace BehaviourTrees
         {
             name = GetType().Name;
             Status status = node.Process(ref name);
-            if (status == Status.Failed)
+            if (status == Status.Failure)
                 return Status.Success;
 
             if (status == Status.Success)
-                return Status.Failed;
+                return Status.Failure;
 
             return Status.Running;
         }

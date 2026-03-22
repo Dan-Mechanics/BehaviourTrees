@@ -23,7 +23,7 @@ namespace BehaviourTrees
             if (Blackboard.GetValue<bool>(inputKey))
                 return Status.Success;
 
-            return Status.Failed;
+            return Status.Failure;
         }
     }
 }

@@ -45,9 +45,9 @@ namespace BehaviourTrees
                 {
                     case Status.Running:
                         return Status.Running;
-                    case Status.Failed:
+                    case Status.Failure:
                         Reset();
-                        return Status.Failed;
+                        return Status.Failure;
                     case Status.Success:
                         continue;
                 }

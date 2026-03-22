@@ -25,7 +25,7 @@ namespace BehaviourTrees
             name = inputKey;
             Transform target = Blackboard.GetValue<Transform>(inputKey);
             if (target == null)
-                return Status.Failed;
+                return Status.Failure;
             
             name = target.name;
             agent.speed = settings.speed;

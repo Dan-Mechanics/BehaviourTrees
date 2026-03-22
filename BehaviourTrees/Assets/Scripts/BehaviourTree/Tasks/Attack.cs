@@ -20,10 +20,10 @@ namespace BehaviourTrees
         {
             Transform target = Blackboard.GetValue<Transform>(targetKey);
             if (!target)
-                return Status.Failed;
+                return Status.Failure;
 
             if (!target.TryGetComponent(out IDamagable damagable))
-                return Status.Failed;
+                return Status.Failure;
 
             damagable.Damage(Blackboard.GetValue<float>(damageKey));
             return Status.Success;

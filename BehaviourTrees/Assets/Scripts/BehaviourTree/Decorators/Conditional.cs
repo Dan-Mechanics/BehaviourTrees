@@ -29,7 +29,7 @@ namespace BehaviourTrees
             if (Blackboard.GetValue<bool>(inputKey) == value)
                 return node.Process(ref name);
 
-            return Status.Failed;
+            return Status.Failure;
         }
     }
 }

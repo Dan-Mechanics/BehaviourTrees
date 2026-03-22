@@ -16,7 +16,6 @@ namespace BehaviourTrees
         }
 
         public void Flash(float amount) => alpha += amount;
-
         private void OnValidate() => canvasGroup = GetComponent<CanvasGroup>();
     }
 }

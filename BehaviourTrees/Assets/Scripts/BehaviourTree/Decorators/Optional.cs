@@ -20,7 +20,7 @@ namespace BehaviourTrees
         public Status Process(ref string name)
         {
             Status status = node.Process(ref name);
-            if (status == Status.Failed)
+            if (status == Status.Failure)
                 return Status.Success;
 
             return status;

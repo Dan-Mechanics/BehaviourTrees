@@ -43,13 +43,13 @@ namespace BehaviourTrees
                     case Status.Success:
                         Reset();
                         return Status.Success;
-                    case Status.Failed:
+                    case Status.Failure:
                         continue;
                 }
             }
 
             Reset();
-            return Status.Failed;
+            return Status.Failure;
         }
 
         public void AssignBlackboard(Blackboard blackboard)
