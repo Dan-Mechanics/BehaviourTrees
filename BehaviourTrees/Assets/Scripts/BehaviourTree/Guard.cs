@@ -59,7 +59,7 @@ namespace BehaviourTrees
                 new MoveTo(PLAYER, agent, combatMovement),
                 new Parallel(new ShakeAnimation(WEAPON_GRAPHIC, Vector3.zero, weaponSwingRotation), new Attack(DAMAGE, PLAYER)),
                 new SetValue<bool>(GETTING_WEAPON, false));
-
+            
             Selector selector = new Selector(
                 new Conditional(GETTING_WEAPON, new Invert(patrol), false),
                 new Invert(new Optional(new Conditional(HAS_WEAPON, getWeapon, false))),
